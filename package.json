@@ -5,5 +5,9 @@
   "workspaces": [
     "frontend",
     "program"
-  ]
+  ],
+  "scripts": {
+    "dev": "yarn workspace @agreement/frontend dev",
+    "test": "yarn workspace @agreement/program test"
+  }
 }
