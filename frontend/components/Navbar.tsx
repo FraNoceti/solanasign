@@ -1,6 +1,18 @@
+import { useWallet } from '@solana/wallet-adapter-react';
+import { useWalletModal } from '@solana/wallet-adapter-react-ui';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { GlyphWallet } from '../assets/GlyphWallet';
+import { ButtonSmall } from '../common/ButtonSmall';
+import { ConnectedWallet } from '../common/ConnectedWallet';
+import { shortenAddress } from '../common/utils';
+import { WalletButton } from './WalletButton';
 
 export default function Navbar() {
+  const wallet = useWallet();
+  const walletModal = useWalletModal();
+
   return (
     <>
       <nav className="top-0 fixed z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-white shadow">
@@ -31,7 +43,17 @@ export default function Navbar() {
               </li>
             </ul>
             <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
-              <li>Wallet Connect</li>
+              {wallet.connected && wallet.publicKey ? (
+                <ConnectedWallet
+                  wallet={wallet.publicKey}
+                  handleDisconnect={() => wallet.disconnect()}
+                />
+              ) : (
+                <WalletButton
+                  caption="Connect wallet"
+                  handler={() => walletModal.setVisible(true)}
+                />
+              )}
             </ul>
           </div>
         </div>
