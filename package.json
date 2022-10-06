@@ -4,7 +4,8 @@
   "packageManager": "yarn@3.2.0",
   "workspaces": [
     "frontend",
-    "program"
+    "program",
+    "lib"
   ],
   "scripts": {
     "dev": "yarn workspace @agreement/frontend dev",

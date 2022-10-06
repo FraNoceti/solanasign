@@ -43,6 +43,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@agreement/lib@workspace:lib":
+  version: 0.0.0-use.local
+  resolution: "@agreement/lib@workspace:lib"
+  dependencies:
+    "@metaplex-foundation/solita": ^0.18.0
+  languageName: unknown
+  linkType: soft
+
 "@agreement/program@workspace:program":
   version: 0.0.0-use.local
   resolution: "@agreement/program@workspace:program"
@@ -559,6 +567,62 @@ __metadata:
   version: 6.10.1
   resolution: "@ledgerhq/logs@npm:6.10.1"
   checksum: 4dde46557d9daa6028f7040d26585aaa7260445212ad8348ae4a01463b7d76a1592dfc36921e47f5fc477c50b5d73e840070ac167e3cbe5b45123f36a4f96b08
+  languageName: node
+  linkType: hard
+
+"@metaplex-foundation/beet-solana@npm:^0.3.1":
+  version: 0.3.1
+  resolution: "@metaplex-foundation/beet-solana@npm:0.3.1"
+  dependencies:
+    "@metaplex-foundation/beet": ">=0.1.0"
+    "@solana/web3.js": ^1.56.2
+    bs58: ^5.0.0
+    debug: ^4.3.4
+  checksum: 5405ec57c8cdb2dce016bf96f1cbd96ae185d6c764b8bdd1aaa68028e1970ad4815e7eb026a61703f57c33ddac261e47874e013bb03d84fa74ad78fce4b6e7cd
+  languageName: node
+  linkType: hard
+
+"@metaplex-foundation/beet@npm:>=0.1.0, @metaplex-foundation/beet@npm:^0.7.1":
+  version: 0.7.1
+  resolution: "@metaplex-foundation/beet@npm:0.7.1"
+  dependencies:
+    ansicolors: ^0.3.2
+    bn.js: ^5.2.0
+    debug: ^4.3.3
+  checksum: f8a330073ab1a0976478e9847c0e63e32f7bee67ea6306e1f89784e8275e30daaecba7cbc5f3424e5d96c411aa3bfbc2b638c105a90067a985acdfbd33a1a287
+  languageName: node
+  linkType: hard
+
+"@metaplex-foundation/rustbin@npm:^0.3.0":
+  version: 0.3.1
+  resolution: "@metaplex-foundation/rustbin@npm:0.3.1"
+  dependencies:
+    debug: ^4.3.3
+    semver: ^7.3.7
+    text-table: ^0.2.0
+    toml: ^3.0.0
+  checksum: 042eb8cb729e886477efa885693dadcf31722c071f8adc5a49509483d846d4d359999b9f2beff9406f4dc9fa0a0f0bdb37be4b0c68426864f9f9f60b456cc74b
+  languageName: node
+  linkType: hard
+
+"@metaplex-foundation/solita@npm:^0.18.0":
+  version: 0.18.0
+  resolution: "@metaplex-foundation/solita@npm:0.18.0"
+  dependencies:
+    "@metaplex-foundation/beet": ^0.7.1
+    "@metaplex-foundation/beet-solana": ^0.3.1
+    "@metaplex-foundation/rustbin": ^0.3.0
+    "@solana/web3.js": ^1.56.2
+    ansi-colors: ^4.1.3
+    camelcase: ^6.2.1
+    debug: ^4.3.3
+    js-sha256: ^0.9.0
+    prettier: ^2.5.1
+    snake-case: ^3.0.4
+    spok: ^1.4.3
+  bin:
+    solita: dist/src/cli/solita.js
+  checksum: 8573c45df39b26adc645798d37be2f0917951758d6583f3072db6c03f5dd1b84f77a115898b98bf240a0e74a41100395526fa4499e5bc935521a87f55815f33f
   languageName: node
   linkType: hard
 
@@ -1132,7 +1196,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@solana/web3.js@npm:^1.36.0, @solana/web3.js@npm:^1.63.1":
+"@solana/web3.js@npm:^1.36.0, @solana/web3.js@npm:^1.56.2, @solana/web3.js@npm:^1.63.1":
   version: 1.63.1
   resolution: "@solana/web3.js@npm:1.63.1"
   dependencies:
@@ -1632,6 +1696,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ansi-colors@npm:^4.1.3":
+  version: 4.1.3
+  resolution: "ansi-colors@npm:4.1.3"
+  checksum: a9c2ec842038a1fabc7db9ece7d3177e2fe1c5dc6f0c51ecfbf5f39911427b89c00b5dc6b8bd95f82a26e9b16aaae2e83d45f060e98070ce4d1333038edceb0e
+  languageName: node
+  linkType: hard
+
 "ansi-regex@npm:^5.0.1":
   version: 5.0.1
   resolution: "ansi-regex@npm:5.0.1"
@@ -1654,6 +1725,13 @@ __metadata:
   dependencies:
     color-convert: ^2.0.1
   checksum: 513b44c3b2105dd14cc42a19271e80f386466c4be574bccf60b627432f9198571ebf4ab1e4c3ba17347658f4ee1711c163d574248c0c1cdc2d5917a0ad582ec4
+  languageName: node
+  linkType: hard
+
+"ansicolors@npm:^0.3.2, ansicolors@npm:~0.3.2":
+  version: 0.3.2
+  resolution: "ansicolors@npm:0.3.2"
+  checksum: e84fae7ebc27ac96d9dbb57f35f078cd6dde1b7046b0f03f73dcefc9fbb1f2e82e3685d083466aded8faf038f9fa9ebb408d215282bcd7aaa301d5ac3c486815
   languageName: node
   linkType: hard
 
@@ -1878,6 +1956,13 @@ __metadata:
   dependencies:
     safe-buffer: ^5.0.1
   checksum: 957101d6fd09e1903e846fd8f69fd7e5e3e50254383e61ab667c725866bec54e5ece5ba49ce385128ae48f9ec93a26567d1d5ebb91f4d56ef4a9cc0d5a5481e8
+  languageName: node
+  linkType: hard
+
+"base-x@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "base-x@npm:4.0.0"
+  checksum: b25db9e07eb1998472a20557c7f00c797dc0595f79df95155ab74274e7fa98b9f2659b3ee547ac8773666b7f69540656793aeb97ad2b1ceccdb6fa5faaf69ac0
   languageName: node
   linkType: hard
 
@@ -2128,6 +2213,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bs58@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "bs58@npm:5.0.0"
+  dependencies:
+    base-x: ^4.0.0
+  checksum: 2475cb0684e07077521aac718e604a13e0f891d58cff923d437a2f7e9e28703ab39fce9f84c7c703ab369815a675f11e3bd394d38643bfe8969fbe42e6833d45
+  languageName: node
+  linkType: hard
+
 "bs58check@npm:^2.1.2":
   version: 2.1.2
   resolution: "bs58check@npm:2.1.2"
@@ -2254,7 +2348,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"camelcase@npm:^6.0.0":
+"camelcase@npm:^6.0.0, camelcase@npm:^6.2.1":
   version: 6.3.0
   resolution: "camelcase@npm:6.3.0"
   checksum: 8c96818a9076434998511251dcb2761a94817ea17dbdc37f47ac080bd088fc62c7369429a19e2178b993497132c8cbcf5cc1f44ba963e76782ba469c0474938d
@@ -5447,7 +5541,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.6.2, prettier@npm:^2.7.1":
+"prettier@npm:^2.5.1, prettier@npm:^2.6.2, prettier@npm:^2.7.1":
   version: 2.7.1
   resolution: "prettier@npm:2.7.1"
   bin:
@@ -6180,6 +6274,15 @@ __metadata:
   version: 0.6.1
   resolution: "source-map@npm:0.6.1"
   checksum: 59ce8640cf3f3124f64ac289012c2b8bd377c238e316fb323ea22fbfe83da07d81e000071d7242cad7a23cd91c7de98e4df8830ec3f133cb6133a5f6e9f67bc2
+  languageName: node
+  linkType: hard
+
+"spok@npm:^1.4.3":
+  version: 1.4.3
+  resolution: "spok@npm:1.4.3"
+  dependencies:
+    ansicolors: ~0.3.2
+  checksum: 22fc0ab37ad6314069700d0dae7f878f981fa51d29c478aa1de30aa74f6bdfbb5dee9fe24bfcf59dc234c4240a344139c486ee6e06134a4dd396ab2df75ca18a
   languageName: node
   linkType: hard
 

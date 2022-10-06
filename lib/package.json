@@ -1,0 +1,10 @@
+{
+  "name": "@agreement/js",
+  "version": "0.1.0",
+  "scripts": {
+    "gen": "yarn solita"
+  },
+  "devDependencies": {
+    "@metaplex-foundation/solita": "^0.18.0"
+  }
+}
