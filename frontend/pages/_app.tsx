@@ -1,4 +1,3 @@
-import '@fortawesome/fontawesome-free/css/all.min.css';
 import '../styles/globals.css';
 import '../styles/tailwind.css';
 import type { AppProps } from 'next/app';

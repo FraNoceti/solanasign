@@ -1,12 +1,8 @@
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useWalletModal } from '@solana/wallet-adapter-react-ui';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { GlyphWallet } from '../assets/GlyphWallet';
-import { ButtonSmall } from '../common/ButtonSmall';
+import { HiOutlineDocumentText } from 'react-icons/hi';
 import { ConnectedWallet } from '../common/ConnectedWallet';
-import { shortenAddress } from '../common/utils';
 import { WalletButton } from './WalletButton';
 
 export default function Navbar() {
@@ -37,7 +33,7 @@ export default function Navbar() {
                   className="hover:text-blueGray-500 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
                   href="#"
                 >
-                  <i className="text-blueGray-400 far fa-file-alt text-lg leading-lg mr-2" />{' '}
+                  <HiOutlineDocumentText className="inline text-lg mr-1 text-blueGray-400" />
                   Docs
                 </a>
               </li>

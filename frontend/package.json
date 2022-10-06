@@ -15,8 +15,8 @@
     "@emotion/react": "^11.10.4",
     "@emotion/server": "^11.10.0",
     "@emotion/styled": "^11.10.4",
-    "@fortawesome/fontawesome-free": "^6.2.0",
     "@popperjs/core": "^2.11.6",
+    "@project-serum/anchor": "^0.25.0",
     "@solana/wallet-adapter-base": "^0.9.17",
     "@solana/wallet-adapter-react": "^0.15.19",
     "@solana/wallet-adapter-react-ui": "^0.9.17",
@@ -27,6 +27,7 @@
     "react-dom": "18.2.0",
     "react-hot-toast": "2.2.0",
     "react-icons": "^4.4.0",
+    "react-popper": "^2.3.0",
     "react-query": "^3.39.2",
     "remove": "^0.1.5"
   },

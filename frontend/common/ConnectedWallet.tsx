@@ -1,9 +1,10 @@
 import { PublicKey } from '@solana/web3.js';
-import { shortenAddress } from './utils';
+import { shortenAddress } from '../utils/basic';
 import { createPopper } from '@popperjs/core';
 import React, { useRef } from 'react';
 import { WalletButton } from '../components/WalletButton';
 import { HiExternalLink } from 'react-icons/hi';
+import { PubkeyLink } from './PubkeyLink';
 
 interface Props {
   wallet: PublicKey;
@@ -51,18 +52,7 @@ export const ConnectedWallet: React.FC<Props> = ({
           'bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48'
         }
       >
-        <a
-          href={`https://explorer.solana.com/address/${wallet.toString()}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={
-            'text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700'
-          }
-          onClick={(e) => e.preventDefault()}
-        >
-          {shortenAddress(wallet.toString())}{' '}
-          <HiExternalLink className="inline" />
-        </a>
+        <PubkeyLink pubkey={wallet.toString()} customClass="px-4 py-2" />
         <div className="h-0 my-2 border border-solid border-blueGray-100" />
         <a
           href="#pablo"
