@@ -1,10 +1,18 @@
 {
   "name": "@agreement/js",
   "version": "0.1.0",
+  "main": "dist/src/generated/index.js",
+  "types": "dist/src/generated/index.d.ts",
   "scripts": {
-    "gen": "yarn solita"
+    "gen": "yarn solita",
+    "build": "yarn rimraf dist && tsc -p tsconfig.json"
   },
+  "files": [
+    "/dist"
+  ],
   "devDependencies": {
-    "@metaplex-foundation/solita": "^0.18.0"
+    "@metaplex-foundation/solita": "^0.18.0",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.8.4"
   }
 }

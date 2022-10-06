@@ -10,6 +10,7 @@ import { WalletProvider } from '@solana/wallet-adapter-react';
 import { getWalletAdapters } from '@solana/wallet-adapter-wallets';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { ToastContainer } from '../common/Notification';
+import { AgreementProvider } from '../providers/AgreementProvider';
 
 require('@solana/wallet-adapter-react-ui/styles.css');
 
@@ -33,10 +34,10 @@ const App = ({
     <WalletProvider autoConnect wallets={getWalletAdapters()}>
       <WalletModalProvider>
         <QueryClientProvider client={queryClient}>
-          <>
+          <AgreementProvider>
             <ToastContainer />
             <Component {...pageProps} />
-          </>
+          </AgreementProvider>
         </QueryClientProvider>
       </WalletModalProvider>
     </WalletProvider>

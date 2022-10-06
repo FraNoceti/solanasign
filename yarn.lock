@@ -9,6 +9,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@agreement/frontend@workspace:frontend"
   dependencies:
+    "@agreement/js": "workspace:^"
     "@emotion/babel-plugin": ^11.10.2
     "@emotion/babel-preset-css-prop": ^11.10.0
     "@emotion/css": ^11.10.0
@@ -43,11 +44,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@agreement/lib@workspace:lib":
+"@agreement/js@workspace:^, @agreement/js@workspace:lib":
   version: 0.0.0-use.local
-  resolution: "@agreement/lib@workspace:lib"
+  resolution: "@agreement/js@workspace:lib"
   dependencies:
     "@metaplex-foundation/solita": ^0.18.0
+    rimraf: ^3.0.2
+    typescript: ^4.8.4
   languageName: unknown
   linkType: soft
 
@@ -6690,7 +6693,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:4.8.4, typescript@npm:^4.3.5":
+"typescript@npm:4.8.4, typescript@npm:^4.3.5, typescript@npm:^4.8.4":
   version: 4.8.4
   resolution: "typescript@npm:4.8.4"
   bin:
@@ -6700,7 +6703,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@4.8.4#~builtin<compat/typescript>, typescript@patch:typescript@^4.3.5#~builtin<compat/typescript>":
+"typescript@patch:typescript@4.8.4#~builtin<compat/typescript>, typescript@patch:typescript@^4.3.5#~builtin<compat/typescript>, typescript@patch:typescript@^4.8.4#~builtin<compat/typescript>":
   version: 4.8.4
   resolution: "typescript@patch:typescript@npm%3A4.8.4#~builtin<compat/typescript>::version=4.8.4&hash=bda367"
   bin:

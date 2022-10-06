@@ -1,15 +1,15 @@
+import { AgreementArgs, Guarantor } from '@agreement/js';
 import { PubkeyLink } from '../../common/PubkeyLink';
 import { useWalletId } from '../../hooks/useWalletId';
-import { Contract } from '../../types/contract';
 import { ContractAction } from './ContractAction';
 
 interface Props {
-  contracts: Contract[];
+  contracts: AgreementArgs[];
 }
 
 export const ContractTable = ({ contracts }: Props) => {
   const walletId = useWalletId();
-  const isSigned = (contract: Contract): boolean => {
+  const isSigned = (contract: AgreementArgs): boolean => {
     return (
       contract.guarantors.findIndex(
         (guarantor) =>
@@ -70,38 +70,49 @@ export const ContractTable = ({ contracts }: Props) => {
               </tr>
             </thead>
             <tbody>
-              {contracts.map((contract, index) => (
-                <tr key={`contract-${index}`}>
-                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                    <span className="font-bold text-blueGray-600 align-center">
-                      {contract.title}
-                    </span>
-                  </td>
-                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                    {contract.content}
-                  </td>
-                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                    {contract.guarantorCount}
-                  </td>
-                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                    {contract.guarantors.map(
-                      (guarantor, pubkeyIndex) =>
-                        guarantor.signed === 1 && (
-                          <PubkeyLink
-                            key={`pubkey-${index}-${pubkeyIndex}`}
-                            pubkey={guarantor.wallet.toString()}
-                          />
-                        )
-                    )}
-                  </td>
-                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
-                    <ContractAction
-                      sign={() => {}}
-                      isSigned={isSigned(contract)}
-                    />
+              {contracts.length > 0 ? (
+                contracts.map((contract, index) => (
+                  <tr key={`contract-${index}`}>
+                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                      <span className="font-bold text-blueGray-600 align-center">
+                        {contract.title}
+                      </span>
+                    </td>
+                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                      {contract.content}
+                    </td>
+                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                      {contract.guarantorCount}
+                    </td>
+                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                      {contract.guarantors.map(
+                        (guarantor: Guarantor, pubkeyIndex: number) =>
+                          guarantor.signed === 1 && (
+                            <PubkeyLink
+                              key={`pubkey-${index}-${pubkeyIndex}`}
+                              pubkey={guarantor.wallet.toString()}
+                            />
+                          )
+                      )}
+                    </td>
+                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
+                      <ContractAction
+                        sign={() => {}}
+                        isSigned={isSigned(contract)}
+                      />
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan={5}
+                    className="text-center py-2 font-semibold text-blueGray-500"
+                  >
+                    No Agreement
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>

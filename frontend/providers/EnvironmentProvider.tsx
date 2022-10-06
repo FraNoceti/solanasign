@@ -61,7 +61,7 @@ export function EnvironmentProvider({
   children,
   defaultCluster
 }: {
-  children: React.ReactChild;
+  children: React.ReactNode;
   defaultCluster: string;
 }) {
   const { query } = useRouter();
