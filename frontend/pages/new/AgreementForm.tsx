@@ -1,4 +1,5 @@
 import { useWallet } from '@solana/wallet-adapter-react';
+import Router from 'next/router';
 import { useState } from 'react';
 import { ButtonSmall } from '../../common/ButtonSmall';
 import { notify } from '../../common/Notification';
@@ -40,7 +41,7 @@ function AgreementForm() {
           type: 'error'
         });
       } else {
-        await createAgreement(
+        const result = await createAgreement(
           title,
           content,
           getPublickeyArray(signers),
@@ -48,6 +49,9 @@ function AgreementForm() {
           connection,
           asWallet(wallet)
         );
+        if (result) {
+          Router.push('/agreements');
+        }
       }
     } else {
       notify({

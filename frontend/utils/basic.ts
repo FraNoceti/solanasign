@@ -27,5 +27,6 @@ export const getPublickeyArray = (signerStr: string): string[] => {
   return signerStr
     .trim()
     .split(' ')
-    .filter((item) => item !== '');
+    .filter((item) => item !== '')
+    .map((item) => item.trim());
 };

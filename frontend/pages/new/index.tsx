@@ -6,7 +6,7 @@ function NewAgreement() {
   return (
     <>
       <Head>
-        <title>New Agreement</title>
+        <title>New Contract</title>
         <meta name="description" content="Create new agreemtn" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

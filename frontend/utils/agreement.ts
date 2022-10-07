@@ -13,7 +13,7 @@ export const createAgreement = async (
   program: Program<AgreementProgram>,
   connection: Connection,
   wallet: Wallet
-): Promise<void> => {
+): Promise<boolean> => {
   const newAgreementKeypair = new Keypair();
   const signers = [];
   const guarantors = pubkeys.map((item) => new PublicKey(item));
@@ -27,7 +27,7 @@ export const createAgreement = async (
     },
     {
       args: {
-        guarantorCount: pubkeys.length,
+        guarantorCount: guarantors.length,
         guarantors,
         title,
         content
@@ -35,36 +35,46 @@ export const createAgreement = async (
     },
     PROGRAM_ID
   );
-  console.log(createAgreementInstruction);
 
   const transaction = await buildTransaction({
     provider: program.provider,
     instructions: [createAgreementInstruction]
   });
 
-  signers.push(newAgreementKeypair);
-
   try {
-    const result = await executeTransaction(connection, wallet, transaction, {
-      silent: false
-    });
+    const signedTransaction = await wallet.signTransaction(transaction);
+
+    signers.push(newAgreementKeypair);
+
+    const result = await executeTransaction(
+      connection,
+      wallet,
+      signedTransaction,
+      {
+        silent: false,
+        signers
+      }
+    );
 
     if ('err' in result) {
       notify({
         message: `Create Assignment Failed`,
         description: `${result.err}`
       });
+      return false;
     } else {
       notify({
         message: 'Successsfully created the contract',
         type: 'success',
         txid: result.sig
       });
+      return true;
     }
   } catch (e) {
     notify({
       message: `Create Assignment Failed`,
       description: `${e}`
     });
+    return false;
   }
 };

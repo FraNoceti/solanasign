@@ -3,11 +3,13 @@ import { useWalletModal } from '@solana/wallet-adapter-react-ui';
 import Link from 'next/link';
 import { HiOutlineDocumentText } from 'react-icons/hi';
 import { ConnectedWallet } from '../common/ConnectedWallet';
+import { useEnvironmentCtx } from '../providers/EnvironmentProvider';
 import { WalletButton } from './WalletButton';
 
 export default function Navbar() {
   const wallet = useWallet();
   const walletModal = useWalletModal();
+  const { environment } = useEnvironmentCtx();
 
   return (
     <>
@@ -37,6 +39,13 @@ export default function Navbar() {
                   Docs
                 </a>
               </li>
+              {environment.label !== 'mainnet-beta' && (
+                <li className="flex items-center">
+                  <div className="bg-slate-300 px-2 rounded-lg ">
+                    {environment.label}
+                  </div>
+                </li>
+              )}
             </ul>
             <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
               {wallet.connected && wallet.publicKey ? (
