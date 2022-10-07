@@ -8,7 +8,9 @@
     "lib"
   ],
   "scripts": {
-    "build:fe": "yarn workspace @agreement/frontend build",
+    "build:fe": "yarn build:lib && yarn workspace @agreement/frontend build",
+    "build:lib": "yarn workspace @agreement/js build",
+    "build:program": "yarn workspace @agreement/program build",
     "dev": "yarn workspace @agreement/frontend dev",
     "test": "yarn workspace @agreement/program test"
   }

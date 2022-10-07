@@ -2,6 +2,7 @@
   "name": "@agreement/program",
   "version": "0.1.0",
   "scripts": {
+    "build": "anchor build --skip-test",
     "test": "anchor test --skip-local-validator --skip-build",
     "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w",
     "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check"
