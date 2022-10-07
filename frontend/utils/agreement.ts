@@ -1,4 +1,8 @@
-import { createCreateAgreementInstruction, PROGRAM_ID } from '@agreement/js';
+import {
+  createCreateAgreementInstruction,
+  createSignAgreementInstruction,
+  PROGRAM_ID
+} from '@agreement/js';
 import { AnchorProvider, Program } from '@project-serum/anchor';
 import { Connection, Keypair, PublicKey, SystemProgram } from '@solana/web3.js';
 import { notify } from '../common/Notification';
@@ -73,6 +77,58 @@ export const createAgreement = async (
   } catch (e) {
     notify({
       message: `Create Assignment Failed`,
+      description: `${e}`
+    });
+    return false;
+  }
+};
+
+export const signAgreement = async (
+  contractKey: PublicKey,
+  connection: Connection,
+  program: Program<AgreementProgram>,
+  wallet: Wallet
+): Promise<boolean> => {
+  const signAgreementInstruction = createSignAgreementInstruction({
+    agreement: contractKey,
+    payer: wallet.publicKey,
+    systemProgram: SystemProgram.programId
+  });
+
+  const transaction = await buildTransaction({
+    provider: program.provider,
+    instructions: [signAgreementInstruction]
+  });
+
+  try {
+    const signedTransaction = await wallet.signTransaction(transaction);
+
+    const result = await executeTransaction(
+      connection,
+      wallet,
+      signedTransaction,
+      {
+        silent: false
+      }
+    );
+
+    if ('err' in result) {
+      notify({
+        message: `Sign Assignment Failed`,
+        description: `${result.err}`
+      });
+      return false;
+    } else {
+      notify({
+        message: 'Successsfully signed the contract',
+        type: 'success',
+        txid: result.sig
+      });
+      return true;
+    }
+  } catch (e) {
+    notify({
+      message: `Sign Assignment Failed`,
       description: `${e}`
     });
     return false;

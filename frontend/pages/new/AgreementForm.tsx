@@ -63,7 +63,17 @@ function AgreementForm() {
 
   return (
     <div className="block w-full overflow-x-auto p-4">
-      <div className="font-bold text-blueGray-500 mb-3">New agreement</div>
+      <div className="font-bold text-blueGray-500 mb-3 flex justify-between">
+        New Contract
+        <ButtonSmall
+          className="text-xs rounded outline-none bg-blueGray-700 text-white font-bold w-[100px]"
+          onClick={() => {
+            Router.push('/agreements');
+          }}
+        >
+          Back to list
+        </ButtonSmall>
+      </div>
       <div className="mb-3 pt-0">
         <input
           type="text"

@@ -5,6 +5,12 @@ import { useProvider } from '../hooks/useProvider';
 import { AnchorProvider, Program } from '@project-serum/anchor';
 import { Agreement as AgreementProgram } from '../types/agreement';
 import { AgreementArgs } from '@agreement/js';
+import { PublicKey } from '@solana/web3.js';
+
+export type Contract = {
+  pubkey: PublicKey;
+  data: AgreementArgs;
+};
 
 export function _useAgreement() {
   const provider = useProvider();
@@ -14,9 +20,23 @@ export function _useAgreement() {
     ['contracts'],
     async () => {
       const allAgreements = await program?.account.agreement.all();
-      return allAgreements?.map((item) => item.account as AgreementArgs) ?? [];
+      const contracts: Contract[] =
+        allAgreements?.map((item) => {
+          return {
+            pubkey: item.publicKey,
+            data: item.account as AgreementArgs
+          };
+        }) ?? [];
+      return contracts.filter(
+        (item) =>
+          item.data.guarantors.findIndex(
+            (guarantor) =>
+              guarantor.wallet.toString() ===
+              provider?.wallet.publicKey.toString()
+          ) > -1
+      );
     },
-    { enabled: !!program }
+    { enabled: !!program && !!provider && !!provider.wallet }
   );
 
   return {
@@ -29,7 +49,7 @@ export function _useAgreement() {
 export interface AgreementContextValues {
   provider: AnchorProvider | null;
   program: Program<AgreementProgram> | null;
-  contracts: AgreementArgs[];
+  contracts: Contract[];
 }
 
 export const AgreementContext = createContext<AgreementContextValues>({
