@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { createContext, ReactNode, useContext } from 'react';
+import { createContext, ReactNode, useContext, useEffect } from 'react';
 import { useProgram } from '../hooks/useProgram';
 import { useProvider } from '../hooks/useProvider';
 import { AnchorProvider, Program } from '@project-serum/anchor';
@@ -10,10 +10,14 @@ export function _useAgreement() {
   const provider = useProvider();
   const program = useProgram(provider);
 
-  const contracts = useQuery('contracts', async () => {
-    const allAgreements = await program?.account.agreement.all();
-    return allAgreements?.map((item) => item.account as AgreementArgs) ?? [];
-  });
+  const contracts = useQuery(
+    ['contracts'],
+    async () => {
+      const allAgreements = await program?.account.agreement.all();
+      return allAgreements?.map((item) => item.account as AgreementArgs) ?? [];
+    },
+    { enabled: !!program }
+  );
 
   return {
     provider,
