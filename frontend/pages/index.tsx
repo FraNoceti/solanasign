@@ -74,10 +74,11 @@ const Home: NextPage = () => {
             <Link
               className="cursor-pointer"
               href="https://twitter.com/davidlu_117"
-              target="_blank"
               passHref
             >
-              <VscTwitter className="text-lg ml-2 text-[#1d9bf0]" />
+              <a target="_blank" rel="noopener noreferrer">
+                <VscTwitter className="text-lg ml-2 text-[#1d9bf0]" />
+              </a>
             </Link>
           </div>
         </div>
