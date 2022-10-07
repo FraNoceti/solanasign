@@ -22,3 +22,10 @@ export const tryPublicKey = (
     return null;
   }
 };
+
+export const getPublickeyArray = (signerStr: string): string[] => {
+  return signerStr
+    .trim()
+    .split(' ')
+    .filter((item) => item !== '');
+};

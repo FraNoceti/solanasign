@@ -1,5 +1,6 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '../components/Navbar';
 import styles from '../styles/Home.module.css';
@@ -31,13 +32,11 @@ const Home: NextPage = () => {
                 on the Solana blockchain.
               </p>
               <div className="mt-12">
-                <a
-                  href="#"
-                  target="_blank"
-                  className="get-started text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-blueGray-400 active:bg-blueGray-500 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150"
-                >
-                  Create New
-                </a>
+                <Link href="/new">
+                  <span className="cursor-pointer get-started text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-blueGray-400 active:bg-blueGray-500 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150">
+                    Create New
+                  </span>
+                </Link>
                 <Link href="/agreements">
                   <span className="cursor-pointer ml-1 text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-blueGray-700 active:bg-blueGray-600 uppercase text-sm shadow hover:shadow-lg">
                     My List
@@ -47,11 +46,14 @@ const Home: NextPage = () => {
             </div>
           </div>
         </div>
-        <img
-          className="pl-10 absolute top-0 b-auto right-0 sm:w-6/12 -mt-48 sm:mt-0 w-10/12 h-full object-cover"
-          src="/backgrounds/index-back.jpg"
-          alt="..."
-        />
+        <div className="pl-10 absolute top-0 b-auto right-0 sm:w-6/12 -mt-48 sm:mt-0 w-10/12 h-full object-cover">
+          <Image
+            src="/backgrounds/index-back.jpg"
+            layout="fill"
+            objectFit="cover"
+            alt="..."
+          />
+        </div>
       </section>
 
       <footer className={styles.footer}>
