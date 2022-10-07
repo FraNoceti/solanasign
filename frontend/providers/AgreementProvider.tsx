@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useQuery, UseQueryResult } from 'react-query';
 import { createContext, ReactNode, useContext, useEffect } from 'react';
 import { useProgram } from '../hooks/useProgram';
 import { useProvider } from '../hooks/useProvider';
@@ -42,20 +42,20 @@ export function _useAgreement() {
   return {
     provider,
     program,
-    contracts: contracts.data || []
+    contracts
   };
 }
 
 export interface AgreementContextValues {
   provider: AnchorProvider | null;
   program: Program<AgreementProgram> | null;
-  contracts: Contract[];
+  contracts: UseQueryResult<Contract[]> | null;
 }
 
 export const AgreementContext = createContext<AgreementContextValues>({
   provider: null,
   program: null,
-  contracts: []
+  contracts: null
 });
 
 export function AgreementProvider({ children }: { children?: ReactNode }) {

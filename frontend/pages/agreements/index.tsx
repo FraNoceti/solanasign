@@ -8,9 +8,8 @@ import { getURLWithNet } from '../../utils/basic';
 import ContractTable from './ContractTable';
 
 function Agreements() {
-  const { contracts } = useAgreement();
   const { environment } = useEnvironmentCtx();
-  console.log(environment.label);
+
   return (
     <>
       <Head>
@@ -36,7 +35,7 @@ function Agreements() {
               Create New
             </ButtonSmall>
           </div>
-          <ContractTable contracts={contracts} />
+          <ContractTable />
         </div>
       </section>
     </>

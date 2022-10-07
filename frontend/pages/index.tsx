@@ -2,10 +2,12 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
+import { SolanaLogo } from '../assets/SolanaLogo';
 import Navbar from '../components/Navbar';
 import { useEnvironmentCtx } from '../providers/EnvironmentProvider';
 import styles from '../styles/Home.module.css';
 import { getURLWithNet } from '../utils/basic';
+import { VscTwitter } from 'react-icons/vsc';
 
 const Home: NextPage = () => {
   const { environment } = useEnvironmentCtx();
@@ -60,9 +62,25 @@ const Home: NextPage = () => {
       </section>
 
       <footer className={styles.footer}>
-        <a href="#" target="_blank" rel="noopener noreferrer">
-          Copyright @ 2022 XXX Development Team
-        </a>
+        <div className="container px-10 flex justify-between w-full">
+          <div className="flex">
+            <div className="mr-2 radius-lg bg-black w-[24px] h-[24px] rounded-full flex justify-center">
+              <SolanaLogo />
+            </div>
+            Powered by Solana blockchain
+          </div>
+          <div className="flex justify-center items-center">
+            Contact me:{' '}
+            <Link
+              className="cursor-pointer"
+              href="https://twitter.com/davidlu_117"
+              target="_blank"
+              passHref
+            >
+              <VscTwitter className="text-lg ml-2 text-[#1d9bf0]" />
+            </Link>
+          </div>
+        </div>
       </footer>
     </>
   );

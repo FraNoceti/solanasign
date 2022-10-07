@@ -9,14 +9,10 @@ import { signAgreement } from '../../utils/agreement';
 import { asWallet } from '../../utils/web3';
 import ContractAction from './ContractAction';
 
-interface Props {
-  contracts: Contract[];
-}
-
-const ContractTable: React.FC<Props> = ({ contracts }: Props) => {
+const ContractTable: React.FC = () => {
   const { connection } = useEnvironmentCtx();
   const wallet = useWallet();
-  const { program } = useAgreement();
+  const { program, contracts } = useAgreement();
   const isSigned = (contract: Contract): boolean => {
     return (
       contract.data.guarantors.findIndex(
@@ -35,6 +31,11 @@ const ContractTable: React.FC<Props> = ({ contracts }: Props) => {
         program,
         asWallet(wallet)
       );
+      notify({
+        message: 'Successfully signed',
+        type: 'success'
+      });
+      contracts?.refetch();
     } else {
       notify({
         message: 'Please connect the wallet',
@@ -94,8 +95,8 @@ const ContractTable: React.FC<Props> = ({ contracts }: Props) => {
               </tr>
             </thead>
             <tbody>
-              {contracts.length > 0 ? (
-                contracts.map((contract, index) => (
+              {contracts && contracts.data && contracts.data.length > 0 ? (
+                contracts.data.map((contract, index) => (
                   <tr key={`contract-${index}`}>
                     <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                       <span className="font-bold text-blueGray-600 align-center">
