@@ -30,3 +30,8 @@ export const getPublickeyArray = (signerStr: string): string[] => {
     .filter((item) => item !== '')
     .map((item) => item.trim());
 };
+
+export const getURLWithNet = (label: string, path: string): string =>
+  `${path}?host=${
+    label.includes('dev') ? 'dev' : label.includes('test') ? 'test' : 'main'
+  }`;

@@ -3,10 +3,14 @@ import Router from 'next/router';
 import { ButtonSmall } from '../../common/ButtonSmall';
 import Navbar from '../../components/Navbar';
 import useAgreement from '../../providers/AgreementProvider';
+import { useEnvironmentCtx } from '../../providers/EnvironmentProvider';
+import { getURLWithNet } from '../../utils/basic';
 import ContractTable from './ContractTable';
 
 function Agreements() {
   const { contracts } = useAgreement();
+  const { environment } = useEnvironmentCtx();
+  console.log(environment.label);
   return (
     <>
       <Head>
@@ -26,7 +30,7 @@ function Agreements() {
             <ButtonSmall
               className="text-xs rounded outline-none bg-blueGray-700 text-white font-bold w-[100px]"
               onClick={() => {
-                Router.push('/new');
+                Router.push(getURLWithNet(environment.label, '/new'));
               }}
             >
               Create New

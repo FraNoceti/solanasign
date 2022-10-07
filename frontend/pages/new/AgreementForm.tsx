@@ -6,14 +6,14 @@ import { notify } from '../../common/Notification';
 import useAgreement from '../../providers/AgreementProvider';
 import { useEnvironmentCtx } from '../../providers/EnvironmentProvider';
 import { createAgreement } from '../../utils/agreement';
-import { getPublickeyArray } from '../../utils/basic';
+import { getPublickeyArray, getURLWithNet } from '../../utils/basic';
 import { asWallet } from '../../utils/web3';
 
 function AgreementForm() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [signers, setSigners] = useState('');
-  const { connection } = useEnvironmentCtx();
+  const { connection, environment } = useEnvironmentCtx();
   const wallet = useWallet();
   const { program } = useAgreement();
 
@@ -50,7 +50,7 @@ function AgreementForm() {
           asWallet(wallet)
         );
         if (result) {
-          Router.push('/agreements');
+          Router.push(getURLWithNet(environment.label, '/agreements'));
         }
       }
     } else {
@@ -68,7 +68,7 @@ function AgreementForm() {
         <ButtonSmall
           className="text-xs rounded outline-none bg-blueGray-700 text-white font-bold w-[100px]"
           onClick={() => {
-            Router.push('/agreements');
+            Router.push(getURLWithNet(environment.label, '/agreements'));
           }}
         >
           Back to list

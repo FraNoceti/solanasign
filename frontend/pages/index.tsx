@@ -3,9 +3,12 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '../components/Navbar';
+import { useEnvironmentCtx } from '../providers/EnvironmentProvider';
 import styles from '../styles/Home.module.css';
+import { getURLWithNet } from '../utils/basic';
 
 const Home: NextPage = () => {
+  const { environment } = useEnvironmentCtx();
   return (
     <>
       <Head>
@@ -32,12 +35,12 @@ const Home: NextPage = () => {
                 on the Solana blockchain.
               </p>
               <div className="mt-12">
-                <Link href="/new">
+                <Link href={getURLWithNet(environment.label, '/new')}>
                   <span className="cursor-pointer get-started text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-blueGray-400 active:bg-blueGray-500 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150">
                     Create New
                   </span>
                 </Link>
-                <Link href="/agreements">
+                <Link href={getURLWithNet(environment.label, '/agreements')}>
                   <span className="cursor-pointer ml-1 text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-blueGray-700 active:bg-blueGray-600 uppercase text-sm shadow hover:shadow-lg">
                     My List
                   </span>
