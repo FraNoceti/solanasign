@@ -62,7 +62,7 @@ const Home: NextPage = () => {
       </section>
 
       <footer className={styles.footer}>
-        <div className="container px-10 flex justify-between w-full">
+        <div className="container flex justify-between w-full">
           <div className="flex">
             <div className="mr-2 radius-lg bg-black w-[24px] h-[24px] rounded-full flex justify-center">
               <SolanaLogo />
