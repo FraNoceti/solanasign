@@ -75,7 +75,7 @@ export function notify({
       <div className="font-medium">{message}</div>
       {description && <div style={{ opacity: '.5' }}>{description}</div>}
     </div>,
-    { duration: 50000 }
+    { duration: 5000 }
   );
 }
 

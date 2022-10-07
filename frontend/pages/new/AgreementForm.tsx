@@ -49,6 +49,11 @@ function AgreementForm() {
           asWallet(wallet)
         );
       }
+    } else {
+      notify({
+        message: 'Please connect the wallet',
+        type: 'error'
+      });
     }
   };
 

@@ -1,13 +1,14 @@
 import { AgreementArgs, Guarantor } from '@agreement/js';
+import React from 'react';
 import { PubkeyLink } from '../../common/PubkeyLink';
 import { useWalletId } from '../../hooks/useWalletId';
-import { ContractAction } from './ContractAction';
+import ContractAction from './ContractAction';
 
 interface Props {
   contracts: AgreementArgs[];
 }
 
-export const ContractTable = ({ contracts }: Props) => {
+const ContractTable: React.FC<Props> = ({ contracts }: Props) => {
   const walletId = useWalletId();
   const isSigned = (contract: AgreementArgs): boolean => {
     return (
@@ -120,3 +121,5 @@ export const ContractTable = ({ contracts }: Props) => {
     </>
   );
 };
+
+export default ContractTable;

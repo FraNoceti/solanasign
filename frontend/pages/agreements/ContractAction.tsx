@@ -6,7 +6,7 @@ interface Props {
   isSigned: boolean;
 }
 
-export const ContractAction = ({ sign, isSigned }: Props) => {
+const ContractAction: React.FC<Props> = ({ sign, isSigned }: Props) => {
   return isSigned ? (
     <HiCheck className="text-lg" />
   ) : (
@@ -18,3 +18,5 @@ export const ContractAction = ({ sign, isSigned }: Props) => {
     </ButtonSmall>
   );
 };
+
+export default ContractAction;

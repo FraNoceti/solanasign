@@ -35,6 +35,7 @@ export const createAgreement = async (
     },
     PROGRAM_ID
   );
+  console.log(createAgreementInstruction);
 
   const transaction = await buildTransaction({
     provider: program.provider,

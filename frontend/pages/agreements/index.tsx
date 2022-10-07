@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Navbar from '../../components/Navbar';
 import useAgreement from '../../providers/AgreementProvider';
-import { ContractTable } from './ContractTable';
+import ContractTable from './ContractTable';
 
 function Agreements() {
   const { contracts } = useAgreement();
