@@ -1,27 +1,13 @@
 import '../styles/globals.css';
 import '../styles/tailwind.css';
 import type { AppProps } from 'next/app';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import {
   EnvironmentProvider,
   getInitialProps
 } from '../providers/EnvironmentProvider';
-import { WalletProvider } from '@solana/wallet-adapter-react';
-import { getWalletAdapters } from '@solana/wallet-adapter-wallets';
-import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
-import { ToastContainer } from '../common/Notification';
-import { AgreementProvider } from '../providers/AgreementProvider';
+import Wrapper from './wrapper';
 
 require('@solana/wallet-adapter-react-ui/styles.css');
-
-export const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      refetchOnMount: false
-    }
-  }
-});
 
 const App = ({
   Component,
@@ -31,16 +17,9 @@ const App = ({
   cluster: string;
 }) => (
   <EnvironmentProvider defaultCluster={cluster}>
-    <WalletProvider autoConnect wallets={getWalletAdapters()}>
-      <WalletModalProvider>
-        <QueryClientProvider client={queryClient}>
-          <AgreementProvider>
-            <ToastContainer />
-            <Component {...pageProps} />
-          </AgreementProvider>
-        </QueryClientProvider>
-      </WalletModalProvider>
-    </WalletProvider>
+    <Wrapper>
+      <Component {...pageProps} />
+    </Wrapper>
   </EnvironmentProvider>
 );
 

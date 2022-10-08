@@ -32,6 +32,10 @@ export const getPublickeyArray = (signerStr: string): string[] => {
 };
 
 export const getURLWithNet = (label: string, path: string): string =>
-  `${path}?host=${
-    label.includes('dev') ? 'dev' : label.includes('test') ? 'test' : 'main'
+  `${path}${
+    label.includes('dev')
+      ? '?host=dev'
+      : label.includes('test')
+      ? '?host=test'
+      : ''
   }`;

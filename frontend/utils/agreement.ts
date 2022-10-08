@@ -1,4 +1,5 @@
 import {
+  AgreementArgs,
   createCreateAgreementInstruction,
   createSignAgreementInstruction,
   PROGRAM_ID
@@ -134,3 +135,29 @@ export const signAgreement = async (
     return false;
   }
 };
+
+export const getAgreementData = async (
+  program: Program<AgreementProgram>,
+  pubkey: string
+): Promise<AgreementArgs | null> => {
+  const agreement = await program.account.agreement.fetchNullable(
+    pubkey,
+    'confirmed'
+  );
+
+  if (agreement) {
+    return agreement as AgreementArgs;
+  }
+  return null;
+};
+
+export const alreadySigned = (
+  agreement: AgreementArgs,
+  pubkey: PublicKey | null
+): boolean =>
+  !!pubkey &&
+  agreement.guarantors.findIndex(
+    (guarantor) =>
+      guarantor.wallet.toString() === pubkey.toString() &&
+      guarantor.signed === 1
+  ) > -1;

@@ -5,40 +5,31 @@ import Navbar from '../../components/Navbar';
 import useAgreement from '../../providers/AgreementProvider';
 import { useEnvironmentCtx } from '../../providers/EnvironmentProvider';
 import { getURLWithNet } from '../../utils/basic';
+import Layout from '../layout';
 import ContractTable from './ContractTable';
 
 function Agreements() {
   const { environment } = useEnvironmentCtx();
 
   return (
-    <>
-      <Head>
-        <title>My agreements</title>
-        <meta name="description" content="The list of agreements" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <Navbar />
-
-      <section className="relative pt-16 flex h-screen">
-        <div className="container mx-auto">
-          <div className="py-2 flex justify-between w-full">
-            <div className="flex center font-semibold text-blueGray-500">
-              Contracts
-            </div>
-            <ButtonSmall
-              className="text-xs rounded outline-none bg-blueGray-700 text-white font-bold w-[100px]"
-              onClick={() => {
-                Router.push(getURLWithNet(environment.label, '/new'));
-              }}
-            >
-              Create New
-            </ButtonSmall>
+    <Layout title="Contract List" description="The list of contracts">
+      <div className="container mx-auto">
+        <div className="py-2 flex justify-between w-full">
+          <div className="flex center font-semibold text-blueGray-500">
+            Contracts
           </div>
-          <ContractTable />
+          <ButtonSmall
+            className="text-xs rounded outline-none bg-blueGray-700 text-white font-bold w-[100px]"
+            onClick={() => {
+              Router.push(getURLWithNet(environment.label, '/new'));
+            }}
+          >
+            Create New
+          </ButtonSmall>
         </div>
-      </section>
-    </>
+        <ContractTable />
+      </div>
+    </Layout>
   );
 }
 

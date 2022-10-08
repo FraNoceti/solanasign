@@ -1,27 +1,22 @@
 import { AgreementArgs, Guarantor } from '@agreement/js';
 import { useWallet } from '@solana/wallet-adapter-react';
+import Link from 'next/link';
 import React from 'react';
 import { notify } from '../../common/Notification';
 import { PubkeyLink } from '../../common/PubkeyLink';
 import useAgreement, { Contract } from '../../providers/AgreementProvider';
 import { useEnvironmentCtx } from '../../providers/EnvironmentProvider';
-import { signAgreement } from '../../utils/agreement';
+import { alreadySigned, signAgreement } from '../../utils/agreement';
+import { getURLWithNet } from '../../utils/basic';
 import { asWallet } from '../../utils/web3';
 import ContractAction from './ContractAction';
 
 const ContractTable: React.FC = () => {
-  const { connection } = useEnvironmentCtx();
+  const { connection, environment } = useEnvironmentCtx();
   const wallet = useWallet();
   const { program, contracts } = useAgreement();
-  const isSigned = (contract: Contract): boolean => {
-    return (
-      contract.data.guarantors.findIndex(
-        (guarantor) =>
-          guarantor.wallet.toString() === wallet?.publicKey?.toString() &&
-          guarantor.signed === 1
-      ) > -1
-    );
-  };
+  const isSigned = (contract: Contract): boolean =>
+    alreadySigned(contract.data, wallet.publicKey);
 
   const sign = async (contract: Contract): Promise<void> => {
     if (program && wallet) {
@@ -98,10 +93,19 @@ const ContractTable: React.FC = () => {
               {contracts && contracts.data && contracts.data.length > 0 ? (
                 contracts.data.map((contract, index) => (
                   <tr key={`contract-${index}`}>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      <span className="font-bold text-blueGray-600 align-center">
-                        {contract.data.title}
-                      </span>
+                    <td className="cursor-pointer border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                      <Link
+                        href={getURLWithNet(
+                          environment.label,
+                          `/agreements/${contract.pubkey}`
+                        )}
+                      >
+                        <a>
+                          <span className="font-bold text-blueGray-600 align-center">
+                            {contract.data.title}
+                          </span>
+                        </a>
+                      </Link>
                     </td>
                     <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                       {contract.data.content}
