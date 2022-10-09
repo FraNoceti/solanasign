@@ -24,14 +24,14 @@ export const ButtonSmall: React.FC<Props> = ({
   return (
     <div
       {...props}
-      className={`flex items-center justify-center gap-1 rounded-xl border-[0px] border-border px-3 py-2 transition-all ${className} ${
-        disabled ? 'cursor-default' : 'cursor-pointer hover:shadow-lg'
+      className={`cursor-pointer flex items-center justify-center gap-1 rounded-xl border-[0px] border-border px-3 py-2 transition-all ${className} ${
+        disabled ? 'bg-blueGray-400' : 'bg-blueGray-700 hover:shadow-lg'
       }`}
       css={css`
         white-space: break-spaces;
       `}
       onClick={async () => {
-        if (!onClick) return;
+        if (!onClick || disabled) return;
         try {
           setLoadingClick(true);
           await onClick();

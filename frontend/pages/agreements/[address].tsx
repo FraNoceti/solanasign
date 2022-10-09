@@ -1,18 +1,25 @@
 import { Guarantor } from '@agreement/js';
 import { useWallet } from '@solana/wallet-adapter-react';
+import { PublicKey } from '@solana/web3.js';
 import { sign } from 'crypto';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useQuery } from 'react-query';
 import { ButtonSmall } from '../../common/ButtonSmall';
+import { notify } from '../../common/Notification';
 import { PubkeyLink } from '../../common/PubkeyLink';
 import Navbar from '../../components/Navbar';
 import { useProgram } from '../../hooks/useProgram';
 import { useProvider } from '../../hooks/useProvider';
 import { useEnvironmentCtx } from '../../providers/EnvironmentProvider';
-import { alreadySigned, getAgreementData } from '../../utils/agreement';
+import {
+  alreadySigned,
+  getAgreementData,
+  signAgreement
+} from '../../utils/agreement';
 import { getURLWithNet } from '../../utils/basic';
+import { asWallet } from '../../utils/web3';
 
 const AgreementDetail: React.FC = () => {
   const provider = useProvider();
@@ -20,18 +27,41 @@ const AgreementDetail: React.FC = () => {
   const router = useRouter();
   const wallet = useWallet();
   const { address } = router.query;
-  const { environment } = useEnvironmentCtx();
+  const { environment, connection } = useEnvironmentCtx();
   const detailQuery = useQuery(
     ['contact-detail'],
     () => getAgreementData(program!, address! as string),
     { enabled: !!program && !!address }
   );
 
-  useEffect(() => {
-    console.log(wallet);
-  });
+  const isSigned = useMemo(
+    () =>
+      !!detailQuery.data &&
+      !!wallet &&
+      alreadySigned(detailQuery.data, wallet.publicKey),
+    [detailQuery.data, wallet]
+  );
 
-  const sign = async (): Promise<void> => {};
+  const sign = async (): Promise<void> => {
+    if (program && wallet) {
+      await signAgreement(
+        new PublicKey(address! as string),
+        connection,
+        program,
+        asWallet(wallet)
+      );
+      notify({
+        message: 'Successfully signed',
+        type: 'success'
+      });
+      detailQuery?.refetch();
+    } else {
+      notify({
+        message: 'Please connect the wallet',
+        type: 'error'
+      });
+    }
+  };
 
   return (
     <>
@@ -82,14 +112,11 @@ const AgreementDetail: React.FC = () => {
                   </div>
                   <div>
                     <ButtonSmall
-                      className="text-xs rounded outline-none bg-blueGray-700 text-white font-bold"
+                      className="text-xs rounded outline-none text-white font-bold "
                       onClick={sign}
-                      disabled={alreadySigned(
-                        detailQuery.data,
-                        wallet.publicKey
-                      )}
+                      disabled={isSigned}
                     >
-                      Sign
+                      {isSigned ? 'Signed' : 'Sign'}
                     </ButtonSmall>
                   </div>
                 </div>

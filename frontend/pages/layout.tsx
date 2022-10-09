@@ -16,11 +16,8 @@ const Layout: React.FC<Props> = ({ title, description, children }: Props) => {
   return (
     <>
       <Head>
-        <title>Agreement on Solana</title>
-        <meta
-          name="description"
-          content="Create and sign the agreement on solana blockchain"
-        />
+        <title>{title}</title>
+        <meta name="description" content={description} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

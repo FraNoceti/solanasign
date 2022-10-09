@@ -30,7 +30,7 @@ const Home: NextPage = () => {
             </p>
             <div className="mt-12">
               <Link href={getURLWithNet(environment.label, '/new')}>
-                <span className="cursor-pointer get-started text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-blueGray-400 active:bg-blueGray-500 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150">
+                <span className="cursor-pointer get-started text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-blueGray-700 active:bg-blueGray-600 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150">
                   Create New
                 </span>
               </Link>

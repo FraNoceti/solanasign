@@ -154,10 +154,13 @@ export const getAgreementData = async (
 export const alreadySigned = (
   agreement: AgreementArgs,
   pubkey: PublicKey | null
-): boolean =>
-  !!pubkey &&
-  agreement.guarantors.findIndex(
-    (guarantor) =>
-      guarantor.wallet.toString() === pubkey.toString() &&
-      guarantor.signed === 1
-  ) > -1;
+): boolean => {
+  const signed =
+    !!pubkey &&
+    agreement.guarantors.findIndex(
+      (guarantor) =>
+        guarantor.wallet.toString() === pubkey.toString() &&
+        guarantor.signed === 1
+    ) > -1;
+  return signed;
+};
