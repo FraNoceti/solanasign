@@ -23,6 +23,7 @@ import { ToastContainer } from '../common/Notification';
 import { AgreementProvider } from '../providers/AgreementProvider';
 import { useEnvironmentCtx } from '../providers/EnvironmentProvider';
 import { getAdapterNetwork } from '../utils/web3';
+require('@solana/wallet-adapter-react-ui/styles.css');
 
 interface Props {
   children?: ReactNode;

@@ -7,8 +7,6 @@ import {
 } from '../providers/EnvironmentProvider';
 import Wrapper from './wrapper';
 
-require('@solana/wallet-adapter-react-ui/styles.css');
-
 const App = ({
   Component,
   pageProps,
