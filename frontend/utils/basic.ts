@@ -39,3 +39,12 @@ export const getURLWithNet = (label: string, path: string): string =>
       ? '?host=test'
       : ''
   }`;
+
+export const getExplorerURL = (label: string, path: string): string =>
+  `${path}${
+    label.includes('dev')
+      ? '?cluster=devnet'
+      : label.includes('test')
+      ? '?cluster=testnet'
+      : ''
+  }`;
