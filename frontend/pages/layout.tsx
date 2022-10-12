@@ -36,7 +36,7 @@ const Layout: React.FC<Props> = ({ title, description, children }: Props) => {
               </div>
               Powered by Solana blockchain
             </div>
-            <div className="flex justify-center items-center">
+            {/* <div className="flex justify-center items-center">
               Contact me:{' '}
               <Link
                 className="cursor-pointer"
@@ -47,7 +47,7 @@ const Layout: React.FC<Props> = ({ title, description, children }: Props) => {
                   <VscTwitter className="text-lg ml-2 text-[#1d9bf0]" />
                 </a>
               </Link>
-            </div>
+            </div> */}
           </div>
         </footer>
       </div>
