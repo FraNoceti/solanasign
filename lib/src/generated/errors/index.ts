@@ -58,6 +58,29 @@ createErrorFromNameLookup.set(
 )
 
 /**
+ * AccountNotProgramData: 'Account is not a program data!'
+ *
+ * @category Errors
+ * @category generated
+ */
+export class AccountNotProgramDataError extends Error {
+  readonly code: number = 0x1772
+  readonly name: string = 'AccountNotProgramData'
+  constructor() {
+    super('Account is not a program data!')
+    if (typeof Error.captureStackTrace === 'function') {
+      Error.captureStackTrace(this, AccountNotProgramDataError)
+    }
+  }
+}
+
+createErrorFromCodeLookup.set(0x1772, () => new AccountNotProgramDataError())
+createErrorFromNameLookup.set(
+  'AccountNotProgramData',
+  () => new AccountNotProgramDataError()
+)
+
+/**
  * Attempts to resolve a custom program error from the provided error code.
  * @category Errors
  * @category generated

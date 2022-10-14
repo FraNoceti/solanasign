@@ -8,7 +8,7 @@
         {
           "name": "agreement",
           "isMut": true,
-          "isSigner": true
+          "isSigner": false
         },
         {
           "name": "payer",
@@ -146,6 +146,11 @@
       "code": 6001,
       "name": "GuarantorDoesNotExist",
       "msg": "Guarantor does not exist!"
+    },
+    {
+      "code": 6002,
+      "name": "AccountNotProgramData",
+      "msg": "Account is not a program data!"
     }
   ],
   "metadata": {

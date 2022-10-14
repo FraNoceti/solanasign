@@ -1,7 +1,5 @@
 import Head from 'next/head';
-import Link from 'next/link';
 import { ReactNode } from 'react';
-import { VscTwitter } from 'react-icons/vsc';
 import { SolanaLogo } from '../assets/SolanaLogo';
 import Navbar from '../components/Navbar';
 import styles from '../styles/Home.module.css';

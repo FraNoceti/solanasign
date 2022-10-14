@@ -1,4 +1,4 @@
-import { AgreementArgs, Guarantor } from '@agreement/js';
+import { Guarantor } from '@agreement/js';
 import { useWallet } from '@solana/wallet-adapter-react';
 import Link from 'next/link';
 import React from 'react';

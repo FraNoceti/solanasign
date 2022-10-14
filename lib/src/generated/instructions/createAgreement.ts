@@ -39,7 +39,7 @@ export const createAgreementStruct = new beet.FixableBeetArgsStruct<
 /**
  * Accounts required by the _createAgreement_ instruction
  *
- * @property [_writable_, **signer**] agreement
+ * @property [_writable_] agreement
  * @property [_writable_, **signer**] payer
  * @category Instructions
  * @category CreateAgreement
@@ -79,7 +79,7 @@ export function createCreateAgreementInstruction(
     {
       pubkey: accounts.agreement,
       isWritable: true,
-      isSigner: true,
+      isSigner: false,
     },
     {
       pubkey: accounts.payer,

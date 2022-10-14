@@ -8,7 +8,7 @@ export type Agreement = {
         {
           "name": "agreement",
           "isMut": true,
-          "isSigner": true
+          "isSigner": false
         },
         {
           "name": "payer",
@@ -146,6 +146,11 @@ export type Agreement = {
       "code": 6001,
       "name": "GuarantorDoesNotExist",
       "msg": "Guarantor does not exist!"
+    },
+    {
+      "code": 6002,
+      "name": "AccountNotProgramData",
+      "msg": "Account is not a program data!"
     }
   ]
 };
@@ -160,7 +165,7 @@ export const IDL: Agreement = {
         {
           "name": "agreement",
           "isMut": true,
-          "isSigner": true
+          "isSigner": false
         },
         {
           "name": "payer",
@@ -298,6 +303,11 @@ export const IDL: Agreement = {
       "code": 6001,
       "name": "GuarantorDoesNotExist",
       "msg": "Guarantor does not exist!"
+    },
+    {
+      "code": 6002,
+      "name": "AccountNotProgramData",
+      "msg": "Account is not a program data!"
     }
   ]
 };

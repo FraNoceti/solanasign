@@ -1,8 +1,5 @@
-import Head from 'next/head';
 import Router from 'next/router';
 import { ButtonSmall } from '../../common/ButtonSmall';
-import Navbar from '../../components/Navbar';
-import useAgreement from '../../providers/AgreementProvider';
 import { useEnvironmentCtx } from '../../providers/EnvironmentProvider';
 import { getURLWithNet } from '../../utils/basic';
 import Layout from '../layout';

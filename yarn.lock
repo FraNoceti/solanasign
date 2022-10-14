@@ -60,6 +60,7 @@ __metadata:
   resolution: "@agreement/program@workspace:program"
   dependencies:
     "@project-serum/anchor": ^0.24.2
+    "@solana/web3.js": ^1.64.0
     "@types/bn.js": ^5.1.0
     "@types/chai": ^4.3.0
     "@types/mocha": ^9.0.0
@@ -1671,6 +1672,29 @@ __metadata:
     rpc-websockets: ^7.5.0
     superstruct: ^0.14.2
   checksum: 77a79cc4b7f9b081aa8df1d01450015f594d11557b515b19f06c875bd1f489e421065c51eb0c756207dca5f61494c67bbcf81209b2bd3e292d239e7701e5a90e
+  languageName: node
+  linkType: hard
+
+"@solana/web3.js@npm:^1.64.0":
+  version: 1.64.0
+  resolution: "@solana/web3.js@npm:1.64.0"
+  dependencies:
+    "@babel/runtime": ^7.12.5
+    "@noble/ed25519": ^1.7.0
+    "@noble/hashes": ^1.1.2
+    "@noble/secp256k1": ^1.6.3
+    "@solana/buffer-layout": ^4.0.0
+    bigint-buffer: ^1.1.5
+    bn.js: ^5.0.0
+    borsh: ^0.7.0
+    bs58: ^4.0.1
+    buffer: 6.0.1
+    fast-stable-stringify: ^1.0.0
+    jayson: ^3.4.4
+    node-fetch: 2
+    rpc-websockets: ^7.5.0
+    superstruct: ^0.14.2
+  checksum: fabe386480e2a474c6da4431ab63f3acff8b3c0f599992b5af8df64b20977d4a12d7e9137d52874de2e9959f9a0d604409d71e91ce10df57ebe9886eb127df93
   languageName: node
   linkType: hard
 

@@ -1,13 +1,8 @@
 import type { NextPage } from 'next';
-import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import { SolanaLogo } from '../assets/SolanaLogo';
-import Navbar from '../components/Navbar';
 import { useEnvironmentCtx } from '../providers/EnvironmentProvider';
-import styles from '../styles/Home.module.css';
 import { getURLWithNet } from '../utils/basic';
-import { VscTwitter } from 'react-icons/vsc';
 import Layout from './layout';
 
 const Home: NextPage = () => {
