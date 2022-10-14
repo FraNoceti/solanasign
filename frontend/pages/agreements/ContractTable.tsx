@@ -107,7 +107,7 @@ const ContractTable: React.FC = () => {
                         </a>
                       </Link>
                     </td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 max-w-[400px] overflow-hidden">
+                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 max-w-[400px] overflow-hidden overflow-ellipsis">
                       {contract.data.content}
                     </td>
                     <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
