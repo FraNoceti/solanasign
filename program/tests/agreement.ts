@@ -53,29 +53,7 @@ describe("Agreement Test", () => {
 
   it("Creates an agreement", async () => {
     const title = "test title";
-    const content = `Land owner General Warranties and Commitments
-    Land owner warrants that it is the owner of the land,
-    Land owner commits to maintain the land as a permanent reserve and to protect the land for
-    conservation.
-    Land owner commits not to use the land for an alternative carbon regime and in the event that a
-    carbon sale under such regime does occur, commits to use funds from that to repurchase tokens at a
-    premium price representing a 5% per annum return to the initial issue price
-    Land owner agrees to the IC [10%] (5% for Jocotoco) fee on issuance of the tokens
-    plus third party fees including but not limited to NFT minting fees and transaction costs
-    Land Owner General Framework
-    Will provide IC with geographic boundaries of the reserve via a .csv file
-    Agrees to only approve the issue of tokens through IC
-    Agrees that tokens will be issued at a rate of 2ha/100ha each year such that the program runs for 50
-    years
-    Agrees that IC may issue tokens o
-    Agrees to provide an annual report on the conservation of the site confirming no deforestation, and
-    an overview of any conservation enhancing activities
-    Land Owner Crypto Specific
-    Provides and maintains this wallet address for all receipts (Conservation Wallet)
-    Agrees to receive funds in SOL or USDC
-    Agrees that [90-95%] of funds received by IC Wallet will be [forwarded] onto Conservation Wallet (edited)
-    [10:47 PM]
-    `;
+    const content = "test content";
     
     const transaction = new Transaction();
 
@@ -137,8 +115,6 @@ describe("Agreement Test", () => {
       }
     );
 
-    console.log("Agreement created: ", txSig);
-
     // update agreement instruction
     const smallerContents = splitIntoSmallerParts(Buffer.from(content), 512);
     let startOffset = getOffset(args.guarantorCount, titleLength);
@@ -165,15 +141,11 @@ describe("Agreement Test", () => {
       agreementKeypair.publicKey,
       "confirmed"
     );
-      
-    console.log("account data fetched");
-    console.log("content is", agreement.content);
         
     assert.equal(agreement.version, 1);
     assert.equal(agreement.guarantorCount, 2);
     assert.equal(agreement.title, title);
-    console.log('agreement.content: ', agreement.content);
-    assert.equal(agreement.content.length, contentLength);
+    assert.equal(agreement.content, content);
     assert.equal(
       agreement.guarantors[0].wallet.toString(),
       signer1Keypair.publicKey.toString()
@@ -186,7 +158,7 @@ describe("Agreement Test", () => {
     console.log("agreement before signing", agreement);
   });
 
-  xit("Signs to agreement", async () => {
+  it("Signs to agreement", async () => {
     const signer1Provider = new anchor.AnchorProvider(
       program.provider.connection,
       new anchor.Wallet(signer1Keypair),

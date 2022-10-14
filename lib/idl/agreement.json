@@ -31,6 +31,29 @@
       ]
     },
     {
+      "name": "updateAgreement",
+      "accounts": [
+        {
+          "name": "agreement",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "UpdateAgreementArgs"
+          }
+        }
+      ]
+    },
+    {
       "name": "signAgreement",
       "accounts": [
         {
@@ -107,8 +130,28 @@
             "type": "string"
           },
           {
+            "name": "contentLength",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateAgreementArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "offset",
+            "type": "u32"
+          },
+          {
+            "name": "length",
+            "type": "u32"
+          },
+          {
             "name": "content",
-            "type": "string"
+            "type": "bytes"
           }
         ]
       }

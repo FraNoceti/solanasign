@@ -12,7 +12,7 @@ export type CreateAgreementArgs = {
   guarantorCount: number
   guarantors: web3.PublicKey[]
   title: string
-  content: string
+  contentLength: number
 }
 
 /**
@@ -25,7 +25,7 @@ export const createAgreementArgsBeet =
       ['guarantorCount', beet.u8],
       ['guarantors', beet.array(beetSolana.publicKey)],
       ['title', beet.utf8String],
-      ['content', beet.utf8String],
+      ['contentLength', beet.u32],
     ],
     'CreateAgreementArgs'
   )

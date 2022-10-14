@@ -1,5 +1,5 @@
 use anchor_lang::{prelude::*, solana_program::clock, Discriminator};
-use std::{mem, str};
+use std::mem;
 
 declare_id!("AzST5p5ATAN1ABdwWXzV7Z8667b3qqA1JUz9w7eWE6Dt");
 
@@ -81,14 +81,19 @@ pub mod agreement {
         let serialized: &[u8] = &args.content.as_slice();
         content_ref.copy_from_slice(serialized);
 
+        // get the content length
+        let start_offset = ctx.accounts.agreement.get_offset();
+        let content_length_ref = &data[start_offset as usize..][..4];
+        let content_length: u32 = calculate_length(content_length_ref);
+
         // actuall change that field
-        let vvv = &data[100..];
-        let s = match String::from_utf8(vvv.to_vec()) {
+        let data_content_ref = &data[(start_offset + 4) as usize..][..content_length as usize];
+        let updated_content = match String::from_utf8(data_content_ref.to_vec()) {
             Ok(v) => v,
             Err(e) => panic!("Invalid UTF-8 sequence: {}", e),
         };
         let agreement = &mut ctx.accounts.agreement;
-        agreement.content = s;
+        agreement.content = updated_content;
 
         Ok(())
     }
@@ -176,6 +181,30 @@ pub struct Agreement {
     pub content: String,
 }
 
+impl Agreement {
+    pub fn get_offset(&self) -> u32 {
+        let mut start_offset = 8 + 2;
+
+        // vector offset
+        start_offset += 4;
+        for guarantor in &self.guarantors {
+            start_offset += 32;
+            start_offset += 1;
+            if let Some(_x) = guarantor.signed_at {
+                start_offset += 8;
+            } else {
+                start_offset += 1;
+            }
+        }
+
+        // title offset
+        start_offset += 4;
+        start_offset += self.title.as_bytes().len() as u32;
+
+        start_offset
+    }
+}
+
 #[repr(C)]
 #[derive(AnchorSerialize, AnchorDeserialize, Clone)]
 pub struct Guarantor {
@@ -192,4 +221,11 @@ pub enum ErrorCode {
     GuarantorDoesNotExist,
     #[msg("Account is not a program data!")]
     AccountNotProgramData,
+}
+
+pub fn calculate_length(array: &[u8]) -> u32 {
+    ((array[3] as u32) << 24)
+        + ((array[2] as u32) << 16)
+        + ((array[1] as u32) << 8)
+        + ((array[0] as u32) << 0)
 }

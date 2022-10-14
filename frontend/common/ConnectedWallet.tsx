@@ -31,7 +31,7 @@ export const ConnectedWallet: React.FC<Props> = ({
     <>
       <a
         className="text-blueGray-500 block"
-        href="#pablo"
+        href="#"
         ref={btnDropdownRef}
         onClick={(e) => {
           e.preventDefault();
@@ -55,7 +55,7 @@ export const ConnectedWallet: React.FC<Props> = ({
         <PubkeyLink pubkey={wallet.toString()} customClass="px-4 py-2" />
         <div className="h-0 my-2 border border-solid border-blueGray-100" />
         <a
-          href="#pablo"
+          href="#"
           className={
             'text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700'
           }

@@ -2,6 +2,7 @@ import {
   AgreementArgs,
   createCreateAgreementInstruction,
   createSignAgreementInstruction,
+  createUpdateAgreementInstruction,
   PROGRAM_ID
 } from '@agreement/js';
 import { AnchorProvider, Program } from '@project-serum/anchor';
@@ -10,6 +11,7 @@ import {
   Keypair,
   PublicKey,
   sendAndConfirmTransaction,
+  Signer,
   SystemProgram,
   Transaction
 } from '@solana/web3.js';
@@ -29,20 +31,17 @@ export const createAgreement = async (
   const newAgreementKeypair = new Keypair();
   const signers = [];
   const guarantors = pubkeys.map((item) => new PublicKey(item));
-  // const wallet = (program.provider as AnchorProvider).wallet;
   guarantors.unshift(wallet.publicKey);
 
-  // create agreement account
+  // create account instruction
+  const titleLength = Buffer.from(title, 'utf8').length;
+  const contentLength = Buffer.from(content, 'utf8').length;
   const size = Math.max(
     Math.ceil(
-      10 +
-        Buffer.from(title, 'utf8').length * 2 +
-        Buffer.from(content, 'utf8').length * 1.5 +
-        guarantors.length * 42
+      10 + titleLength * 2 + contentLength * 1.5 + guarantors.length * 42
     ),
     300
   );
-  console.log(size);
   const rent = await connection.getMinimumBalanceForRentExemption(size);
 
   const createAccountInstruction = SystemProgram.createAccount({
@@ -53,11 +52,12 @@ export const createAgreement = async (
     programId: PROGRAM_ID
   });
 
+  // create agreement instruction
   const args = {
     guarantorCount: guarantors.length,
     guarantors,
     title,
-    content
+    contentLength
   };
 
   const accounts = {
@@ -66,95 +66,113 @@ export const createAgreement = async (
     systemProgram: SystemProgram.programId
   };
 
-  // const createAgreementInstruction = createCreateAgreementInstruction(
-  //   accounts,
-  //   {
-  //     args
-  //   },
-  //   PROGRAM_ID
-  // );
+  const createAgreementInstruction = createCreateAgreementInstruction(
+    accounts,
+    {
+      args
+    },
+    PROGRAM_ID
+  );
 
-  console.log('Before making');
-  const createAgreementInstruction = await program.methods
-    .createAgreement(args)
-    .accounts(accounts)
-    .instruction();
+  const createTransaction = await buildTransaction({
+    provider: program.provider,
+    instructions: [createAccountInstruction, createAgreementInstruction]
+  });
 
-  console.log('After making');
+  signers.push(newAgreementKeypair);
 
-  // using anchor provider
-  const transaction = new Transaction();
-  transaction.add(createAccountInstruction);
-  transaction.add(createAgreementInstruction);
+  const createResult = await signAndExecuteTransaction(
+    wallet,
+    connection,
+    createTransaction,
+    'Create',
+    signers
+  );
 
-  try {
-    // @ts-ignore
-    const txSig = await program.provider.sendAndConfirm(
-      transaction,
-      [newAgreementKeypair],
-      {
-        preflightCommitment: 'confirmed'
-      }
-    );
-
-    console.log(txSig);
-    notify({
-      message: 'Successsfully created the contract',
-      type: 'success',
-      txid: txSig
-    });
-    return true;
-  } catch (e) {
-    console.log(e);
-    notify({
-      message: `Create Assignment Failed`,
-      description: `${e}`
-    });
+  if (!createResult) {
     return false;
   }
 
-  // const transaction = await buildTransaction({
-  //   provider: program.provider,
-  //   instructions: [createAccountInstruction, createAgreementInstruction]
-  // });
+  // update agreement instruction
+  const updateTxs: Transaction[] = [];
+  const smallerContents = splitIntoSmallerParts(Buffer.from(content), 512);
+  let startOffset = getOffset(args.guarantorCount, titleLength);
 
-  // try {
-  //   const signedTransaction = await wallet.signTransaction(transaction);
+  await Promise.all(
+    smallerContents.map(async (contentItem, index) => {
+      const updateAgreementInstruction = createUpdateAgreementInstruction(
+        {
+          agreement: newAgreementKeypair.publicKey,
+          payer: wallet.publicKey
+        },
+        {
+          args: {
+            offset: startOffset + 512 * index,
+            length: contentItem.length,
+            content: contentItem
+          }
+        },
+        PROGRAM_ID
+      );
+      updateTxs.push(
+        await buildTransaction({
+          provider: program.provider,
+          instructions: [updateAgreementInstruction]
+        })
+      );
+    })
+  );
 
-  //   signers.push(newAgreementKeypair);
+  let updateResult = true;
+  await Promise.all(
+    updateTxs.map(async (updateTx) => {
+      const tempResult = await signAndExecuteTransaction(
+        wallet,
+        connection,
+        updateTx,
+        'Create'
+      );
+      updateResult = tempResult;
+    })
+  );
 
-  //   const result = await executeTransaction(
-  //     connection,
-  //     wallet,
-  //     signedTransaction,
-  //     {
-  //       silent: false,
-  //       signers
-  //     }
-  //   );
+  return updateResult;
+};
 
-  //   if ('err' in result) {
-  //     notify({
-  //       message: `Create Assignment Failed`,
-  //       description: `${result.err}`
-  //     });
-  //     return false;
-  //   } else {
-  //     notify({
-  //       message: 'Successsfully created the contract',
-  //       type: 'success',
-  //       txid: result.sig
-  //     });
-  //     return true;
-  //   }
-  // } catch (e) {
-  //   console.log(e);
-  //   notify({
-  //     message: `Create Assignment Failed`,
-  //     description: `${e}`
-  //   });
-  //   return false;
-  // }
+export const signAndExecuteTransaction = async (
+  wallet: Wallet,
+  connection: Connection,
+  transaction: Transaction,
+  txPrefix: string,
+  signers: Signer[] | undefined = undefined
+): Promise<boolean> => {
+  try {
+    const signedTx = await wallet.signTransaction(transaction);
+
+    const result = await executeTransaction(connection, wallet, signedTx, {
+      silent: false,
+      signers
+    });
+
+    if ('err' in result) {
+      notify({
+        message: `${txPrefix} Transaction Failed`,
+        description: `${result.err}`,
+        type: 'error'
+      });
+      return false;
+    } else {
+      return true;
+    }
+  } catch (e) {
+    console.log(e);
+    notify({
+      message: `${txPrefix} Transaction Failed`,
+      description: `${e}`,
+      type: 'error'
+    });
+    return false;
+  }
 };
 
 export const signAgreement = async (
@@ -237,3 +255,19 @@ export const alreadySigned = (
     ) > -1;
   return signed;
 };
+
+export const splitIntoSmallerParts = (
+  content: Buffer,
+  size: number
+): Buffer[] => {
+  let smallerContents: Buffer[] = [];
+  let start = 0;
+  while (start <= content.length) {
+    smallerContents.push(content.subarray(start, start + size));
+    start += size;
+  }
+  return smallerContents;
+};
+
+export const getOffset = (guarantors: number, titleLength: number): number =>
+  10 + 34 * guarantors + 4 + titleLength + 4 + 4;

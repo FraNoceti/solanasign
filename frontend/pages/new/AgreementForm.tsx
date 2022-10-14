@@ -15,7 +15,7 @@ function AgreementForm() {
   const [signers, setSigners] = useState('');
   const { connection, environment } = useEnvironmentCtx();
   const wallet = useWallet();
-  const { program } = useAgreement();
+  const { program, contracts } = useAgreement();
 
   const createContract = async () => {
     if (
@@ -50,6 +50,18 @@ function AgreementForm() {
           asWallet(wallet)
         );
         if (result) {
+          if (result) {
+            notify({
+              message: 'Successfully created a contract',
+              type: 'success'
+            });
+          } else {
+            notify({
+              message: 'Failed to created a contract',
+              type: 'error'
+            });
+          }
+          contracts?.refetch();
           Router.push(getURLWithNet(environment.label, '/agreements'));
         }
       }

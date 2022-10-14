@@ -95,7 +95,9 @@ const AgreementDetail: React.FC = () => {
                 </div>
                 <div className="rounded-sm m-2 p-2 border-[1px] border-slate-300">
                   <span className="text-blueGray-500">Content :</span>
-                  <div>{detailQuery.data.content}</div>
+                  <div className="whitespace-pre-wrap">
+                    {detailQuery.data.content}
+                  </div>
                 </div>
                 <div className="flex justify-between p-2">
                   <div>
