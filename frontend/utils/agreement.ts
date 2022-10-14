@@ -17,7 +17,11 @@ import {
 } from '@solana/web3.js';
 import { notify } from '../common/Notification';
 import { Agreement as AgreementProgram } from '../types/agreement';
-import { buildTransaction, executeTransaction } from './web3';
+import {
+  buildTransaction,
+  executeOneTransaction,
+  onlyExecuteTransaction
+} from './web3';
 import { Wallet } from '@saberhq/solana-contrib';
 
 export const createAgreement = async (
@@ -32,6 +36,9 @@ export const createAgreement = async (
   const signers = [];
   const guarantors = pubkeys.map((item) => new PublicKey(item));
   guarantors.unshift(wallet.publicKey);
+
+  // get the blockhash
+  const latestBlockHash = await connection.getLatestBlockhash();
 
   // create account instruction
   const titleLength = Buffer.from(title, 'utf8').length;
@@ -76,25 +83,29 @@ export const createAgreement = async (
 
   const createTransaction = await buildTransaction({
     provider: program.provider,
-    instructions: [createAccountInstruction, createAgreementInstruction]
+    instructions: [createAccountInstruction, createAgreementInstruction],
+    feePayer: wallet.publicKey,
+    recentBlockhash: latestBlockHash.blockhash,
+    recentBlockHeight: latestBlockHash.lastValidBlockHeight
   });
 
   signers.push(newAgreementKeypair);
+  createTransaction.partialSign(...signers);
 
-  const createResult = await signAndExecuteTransaction(
-    wallet,
-    connection,
-    createTransaction,
-    'Create',
-    signers
-  );
+  // const createResult = await signAndExecuteTransaction(
+  //   wallet,
+  //   connection,
+  //   createTransaction,
+  //   'Create',
+  //   signers
+  // );
 
-  if (!createResult) {
-    return false;
-  }
+  // if (!createResult) {
+  //   return false;
+  // }
 
   // update agreement instruction
-  const updateTxs: Transaction[] = [];
+  const updateTxs: Transaction[] = [createTransaction];
   const smallerContents = splitIntoSmallerParts(Buffer.from(content), 512);
   let startOffset = getOffset(args.guarantorCount, titleLength);
 
@@ -117,62 +128,25 @@ export const createAgreement = async (
       updateTxs.push(
         await buildTransaction({
           provider: program.provider,
-          instructions: [updateAgreementInstruction]
+          instructions: [updateAgreementInstruction],
+          feePayer: wallet.publicKey,
+          recentBlockhash: latestBlockHash.blockhash,
+          recentBlockHeight: latestBlockHash.lastValidBlockHeight
         })
       );
     })
   );
 
+  const signedTransactions = await wallet.signAllTransactions(updateTxs);
+
   let updateResult = true;
-  await Promise.all(
-    updateTxs.map(async (updateTx) => {
-      const tempResult = await signAndExecuteTransaction(
-        wallet,
-        connection,
-        updateTx,
-        'Create'
-      );
-      updateResult = tempResult;
-    })
+  updateResult = await executeTransactions(
+    wallet,
+    connection,
+    signedTransactions
   );
 
   return updateResult;
-};
-
-export const signAndExecuteTransaction = async (
-  wallet: Wallet,
-  connection: Connection,
-  transaction: Transaction,
-  txPrefix: string,
-  signers: Signer[] | undefined = undefined
-): Promise<boolean> => {
-  try {
-    const signedTx = await wallet.signTransaction(transaction);
-
-    const result = await executeTransaction(connection, wallet, signedTx, {
-      silent: false,
-      signers
-    });
-
-    if ('err' in result) {
-      notify({
-        message: `${txPrefix} Transaction Failed`,
-        description: `${result.err}`,
-        type: 'error'
-      });
-      return false;
-    } else {
-      return true;
-    }
-  } catch (e) {
-    console.log(e);
-    notify({
-      message: `${txPrefix} Transaction Failed`,
-      description: `${e}`,
-      type: 'error'
-    });
-    return false;
-  }
 };
 
 export const signAgreement = async (
@@ -193,12 +167,10 @@ export const signAgreement = async (
   });
 
   try {
-    const signedTransaction = await wallet.signTransaction(transaction);
-
-    const result = await executeTransaction(
+    const result = await executeOneTransaction(
       connection,
       wallet,
-      signedTransaction,
+      transaction,
       {
         silent: false
       }
@@ -271,3 +243,65 @@ export const splitIntoSmallerParts = (
 
 export const getOffset = (guarantors: number, titleLength: number): number =>
   10 + 34 * guarantors + 4 + titleLength + 4 + 4;
+
+export const signAndExecuteTransaction = async (
+  wallet: Wallet,
+  connection: Connection,
+  transaction: Transaction,
+  txPrefix: string,
+  signers: Signer[] | undefined = undefined
+): Promise<boolean> => {
+  try {
+    const result = await executeOneTransaction(
+      connection,
+      wallet,
+      transaction,
+      {
+        silent: false,
+        signers
+      }
+    );
+
+    if ('err' in result) {
+      notify({
+        message: `${txPrefix} Transaction Failed`,
+        description: `${result.err}`,
+        type: 'error'
+      });
+      return false;
+    } else {
+      return true;
+    }
+  } catch (e) {
+    console.log(e);
+    notify({
+      message: `${txPrefix} Transaction Failed`,
+      description: `${e}`,
+      type: 'error'
+    });
+    return false;
+  }
+};
+
+export const executeTransactions = async (
+  wallet: Wallet,
+  connection: Connection,
+  txs: Transaction[]
+): Promise<boolean> => {
+  let executedResult = true;
+  await Promise.all(
+    txs.map(async (tx, index) => {
+      try {
+        const result = await onlyExecuteTransaction(connection, tx);
+        if (result === 'error') {
+          executedResult = false;
+        }
+        console.log(`${index}th signature: `, result);
+      } catch (e) {
+        console.error(e);
+        executedResult = false;
+      }
+    })
+  );
+  return executedResult;
+};

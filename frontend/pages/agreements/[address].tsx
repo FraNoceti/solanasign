@@ -29,7 +29,7 @@ const AgreementDetail: React.FC = () => {
   const { address } = router.query;
   const { environment, connection } = useEnvironmentCtx();
   const detailQuery = useQuery(
-    ['contact-detail'],
+    ['contact-detail', address],
     () => getAgreementData(program!, address! as string),
     { enabled: !!program && !!address }
   );

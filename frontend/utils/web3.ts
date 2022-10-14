@@ -78,7 +78,31 @@ export type OnTransactionUpdateFunction = ({
   error?: Error;
 }) => void;
 
-export const executeTransaction = async (
+export const onlyExecuteTransaction = async (
+  connection: Connection,
+  signedTransaction: Transaction
+): Promise<string> => {
+  try {
+    const serializedTransaction = signedTransaction.serialize();
+    const sig = await connection.sendRawTransaction(serializedTransaction, {
+      skipPreflight: true
+    });
+    const result = await connection.confirmTransaction(
+      {
+        blockhash: signedTransaction.recentBlockhash!,
+        lastValidBlockHeight: signedTransaction.lastValidBlockHeight!,
+        signature: sig
+      },
+      'confirmed'
+    );
+    return sig;
+  } catch (e) {
+    console.error(e);
+    return 'error';
+  }
+};
+
+export const executeOneTransaction = async (
   connection: Connection,
   wallet: Wallet,
   transaction: Transaction,
@@ -88,6 +112,7 @@ export const executeTransaction = async (
     commitment?: Commitment;
     confirmOptions?: ConfirmOptions;
     sendOptions?: SendOptions;
+    signNeeded?: boolean;
     callback?: (success: boolean) => void;
   },
   onTransactionUpdate: OnTransactionUpdateFunction = ({ ...args }) => {}
@@ -99,7 +124,9 @@ export const executeTransaction = async (
     const latestBlockHash = await connection.getLatestBlockhash();
     transaction.feePayer = wallet.publicKey;
     transaction.recentBlockhash = latestBlockHash.blockhash;
-    await wallet.signTransaction(transaction);
+    transaction.lastValidBlockHeight = latestBlockHash.lastValidBlockHeight;
+    transaction = await wallet.signTransaction(transaction);
+
     if (config.signers && config.signers.length > 0) {
       transaction.partialSign(...config.signers);
     }
@@ -139,12 +166,14 @@ export const buildTransaction = async ({
   provider,
   instructions,
   feePayer = (provider as anchor.AnchorProvider).wallet.publicKey,
-  recentBlockhash
+  recentBlockhash,
+  recentBlockHeight
 }: {
   provider: Provider;
   instructions: TransactionInstruction[];
   feePayer?: PublicKey;
   recentBlockhash?: Blockhash;
+  recentBlockHeight?: number;
 }): Promise<Transaction> => {
   recentBlockhash =
     recentBlockhash ||
@@ -153,5 +182,6 @@ export const buildTransaction = async ({
   transaction.add(...instructions);
   transaction.feePayer = feePayer;
   transaction.recentBlockhash = recentBlockhash;
+  transaction.lastValidBlockHeight = recentBlockHeight;
   return transaction;
 };
