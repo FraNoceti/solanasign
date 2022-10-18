@@ -25,7 +25,7 @@ export const ButtonSmall: React.FC<Props> = ({
     <div
       {...props}
       className={`cursor-pointer flex items-center justify-center gap-1 rounded-xl border-[0px] border-border px-3 py-2 transition-all ${className} ${
-        disabled ? 'bg-blueGray-400' : 'bg-blueGray-700 hover:shadow-lg'
+        disabled ? 'bg-blueGray-400' : 'bg-blueGray-600 hover:shadow-lg'
       }`}
       css={css`
         white-space: break-spaces;

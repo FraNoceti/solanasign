@@ -74,11 +74,11 @@ function AgreementForm() {
   };
 
   return (
-    <div className="block w-full overflow-x-auto p-4">
-      <div className="font-bold text-blueGray-500 mb-3 flex justify-between">
+    <div className="block w-full bg-slate-300 overflow-x-auto p-4">
+      <div className="font-bold text-lg text-blueGray-500 mb-3 flex justify-between">
         New Contract
         <ButtonSmall
-          className="text-xs rounded outline-none bg-blueGray-700 text-white font-bold w-[100px]"
+          className="text-xs rounded-lg outline-none bg-blueGray-700 text-white font-bold w-[100px]"
           onClick={() => {
             Router.push(getURLWithNet(environment.label, '/agreements'));
           }}
@@ -90,7 +90,7 @@ function AgreementForm() {
         <input
           type="text"
           placeholder="Please input the title of the agreement"
-          className="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full"
+          className="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded-lg text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
@@ -98,7 +98,7 @@ function AgreementForm() {
       <div className="mb-3 pt-0">
         <textarea
           placeholder="Please input the content of the agreement"
-          className="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full"
+          className="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded-lg text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full"
           rows={10}
           value={content}
           onChange={(e) => setContent(e.target.value)}
@@ -109,13 +109,13 @@ function AgreementForm() {
           <input
             type="text"
             placeholder="Please input the address of signer"
-            className="px-1 py-2 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full"
+            className="px-1 py-2 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded-lg text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full"
             value={signers}
             onChange={(e) => setSigners(e.target.value)}
           />
         </div>
         <ButtonSmall
-          className="text-xs rounded outline-none bg-blueGray-700 text-white font-bold w-[200px]"
+          className="text-md rounded- outline-none bg-blueGray-700 text-white font-bold w-[200px]"
           onClick={createContract}
         >
           Create

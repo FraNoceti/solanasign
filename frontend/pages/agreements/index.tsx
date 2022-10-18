@@ -12,11 +12,11 @@ function Agreements() {
     <Layout title="Contract List" description="The list of contracts">
       <div className="container mx-auto">
         <div className="py-2 flex justify-between w-full">
-          <div className="flex center font-semibold text-blueGray-500">
+          <div className="flex center font-semibold text-lg text-slate-300">
             Contracts
           </div>
           <ButtonSmall
-            className="text-xs rounded outline-none bg-blueGray-700 text-white font-bold w-[100px]"
+            className="text-xs rounded outline-none bg-blueGray-600 text-white font-bold w-[100px]"
             onClick={() => {
               Router.push(getURLWithNet(environment.label, '/new'));
             }}

@@ -73,13 +73,13 @@ const AgreementDetail: React.FC = () => {
 
       <Navbar />
 
-      <section className="relative pt-16 flex h-screen">
-        <div className="container mx-auto">
-          <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-white p-4">
+      <section className="relative pt-16 min-h-screen flex bg-slate-700">
+        <div className="container mx-auto ">
+          <div className="relative flex flex-col min-w-0 break-words w-full mb-10 shadow-lg rounded bg-slate-300 p-4">
             {detailQuery.data && (
               <>
                 <div className="rounded-md p-2 flex justify-between">
-                  <span className="text-blueGray-700 font-bold self-center">
+                  <span className="text-blueGray-700 text-lg font-bold self-center">
                     {detailQuery.data.title}
                   </span>
                   <ButtonSmall

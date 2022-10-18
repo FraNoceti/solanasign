@@ -22,30 +22,18 @@ const Layout: React.FC<Props> = ({ title, description, children }: Props) => {
       <div className="flex flex-col h-screen">
         <Navbar />
 
-        <section className="header relative pt-16 flex grow">
+        <section className="header relative pt-16 flex grow bg-slate-800">
           {children}
         </section>
 
-        <footer className={`${styles.footer} flex-none`}>
-          <div className="container flex justify-between w-full">
-            <div className="flex">
-              <div className="mr-2 radius-lg bg-black w-[24px] h-[24px] rounded-full flex justify-center">
+        <footer className={`${styles.footer} flex-none bg-slate-800 `}>
+          <div className="container flex justify-between w-full bg-slate-800">
+            <div className="flex text-slate-300">
+              <div className="mr-2 radius-lg bg-slate-300 w-[24px] h-[24px] rounded-full flex justify-center">
                 <SolanaLogo />
               </div>
               Powered by Solana blockchain
             </div>
-            {/* <div className="flex justify-center items-center">
-              Contact me:{' '}
-              <Link
-                className="cursor-pointer"
-                href="https://twitter.com/davidlu_117"
-                passHref
-              >
-                <a target="_blank" rel="noopener noreferrer">
-                  <VscTwitter className="text-lg ml-2 text-[#1d9bf0]" />
-                </a>
-              </Link>
-            </div> */}
           </div>
         </footer>
       </div>
