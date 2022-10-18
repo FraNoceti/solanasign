@@ -8,7 +8,7 @@ interface Props {
 
 export const WalletButton: React.FC<Props> = ({ caption, handler }: Props) => (
   <ButtonSmall
-    className="text-xs rounded outline-none bg-blueGray-700 text-white font-bold"
+    className="text-xs rounded outline-none bg-orange text-white font-bold"
     onClick={handler}
   >
     <>

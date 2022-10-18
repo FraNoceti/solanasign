@@ -14,12 +14,12 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="top-0 fixed z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-white shadow">
+      <nav className="top-0 fixed z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-slate-800 border-b-2 border-slate-600">
         <div className="container mx-auto flex flex-wrap items-center justify-between">
           <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
             <Link href={getURLWithNet(environment.label, '/')}>
               <a
-                className="text-blueGray-700 text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase"
+                className="text-orange-500 text-md font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase"
                 href="#"
               >
                 solanasign
@@ -27,22 +27,24 @@ export default function Navbar() {
             </Link>
           </div>
           <div
-            className="lg:flex flex-grow items-center bg-white lg:bg-opacity-0 lg:shadow-none"
+            className="lg:flex flex-grow items-center lg:bg-opacity-0 lg:shadow-none"
             id="example-navbar-warning"
           >
             <ul className="flex flex-col lg:flex-row list-none mr-auto">
               <li className="flex items-center">
                 <a
-                  className="hover:text-blueGray-500 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                  className="hover:text-blueGray-500 text-blueGray-400 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
                   href="#"
                 >
-                  <HiOutlineDocumentText className="inline text-lg mr-1 text-blueGray-400" />
+                  <HiOutlineDocumentText className="inline text-lg mr-1 text-blueGray-300" />
                   Docs
                 </a>
               </li>
               {environment.label !== 'mainnet-beta' && (
                 <li className="flex items-center">
-                  <div className="bg-slate-300 px-2 rounded-lg ">
+                  <div
+                    className="bg-slate-300 px-2 rounded-lg "
+                  >
                     {environment.label}
                   </div>
                 </li>
