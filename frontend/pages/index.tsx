@@ -16,7 +16,7 @@ const Home: NextPage = () => {
         <div className="w-full md:w-8/12 lg:w-6/12 xl:w-6/12 px-4">
           <div className="pt-32 sm:pt-0">
             <h2 className="font-bold text-5xl text-slate-200">
-              Peer to peer agreements<br></br> on the Solana blockchain.
+              Peer to peer agreements<br></br> on the Solana Blockchain.
             </h2>
             <p className="mt-4 text-xl leading-relaxed text-slate-300 p">
               SolanaSign is a fully decentralized alternative to products<br></br> like
