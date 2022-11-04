@@ -1,7 +1,9 @@
 import * as anchor from "@project-serum/anchor";
 import { Program } from "@project-serum/anchor";
+import { SystemProgram, Transaction } from "@solana/web3.js";
 import { assert } from "chai";
 import { Agreement, IDL } from "../target/types/agreement";
+import { getOffset, splitIntoSmallerParts } from './content';
 
 describe("Agreement Test", () => {
   // Configure the client to use the local cluster.
@@ -50,11 +52,45 @@ describe("Agreement Test", () => {
   });
 
   it("Creates an agreement", async () => {
+    const title = "test title";
+    const content = "test content";
+    
+    const transaction = new Transaction();
+
+    // content length
+    const contentLength = Buffer.from(content, "utf8").length;
+    const titleLength = Buffer.from(title, "utf8").length;
+
+    // create account instruction
+    let size = Math.max(
+      Math.ceil(
+        10 +
+          256 +
+          contentLength * 1.5 +
+          2 * 42
+      ),
+      300
+    );
+
+    const rent =
+      await program.provider.connection.getMinimumBalanceForRentExemption(size);
+
+    const createAccountInstruction = SystemProgram.createAccount({
+      fromPubkey: (program.provider as anchor.AnchorProvider).wallet.publicKey,
+      newAccountPubkey: agreementKeypair.publicKey,
+      lamports: rent,
+      space: size,
+      programId: program.programId,
+    });
+
+    transaction.add(createAccountInstruction);
+
+    // create agreement instruction
     const args = {
       guarantorCount: 2,
       guarantors: [signer1Keypair.publicKey, signer2Keypair.publicKey],
-      title: "test title",
-      content: "test content",
+      title,
+      contentLength
     };
 
     const accounts = {
@@ -63,24 +99,53 @@ describe("Agreement Test", () => {
       systemProgram: anchor.web3.SystemProgram.programId,
     };
 
-    const tx = await program.methods
+    const createAgreementInstruction = await program.methods
       .createAgreement(args)
       .accounts(accounts)
-      .signers([agreementKeypair])
-      .rpc();
+      .instruction();
 
-    assert.isDefined(tx);
+    transaction.add(createAgreementInstruction);
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // @ts-ignore
+    const txSig = await program.provider.sendAndConfirm(
+      transaction,
+      [agreementKeypair],
+      {
+        preflightCommitment: "confirmed",
+      }
+    );
+
+    // update agreement instruction
+    const smallerContents = splitIntoSmallerParts(Buffer.from(content), 512);
+    let startOffset = getOffset(args.guarantorCount, titleLength);
+
+    await Promise.all(smallerContents.map(async (contentItem, index) => {
+        try {        
+          const tx = await program.methods.updateAgreement({
+            offset: startOffset + 512 * index,
+            length: contentItem.length,
+            content: contentItem
+          }).accounts({
+            agreement: agreementKeypair.publicKey,
+            payer: (program.provider as anchor.AnchorProvider).wallet.publicKey,
+          }).rpc();
+          console.log(tx);
+        }catch(e){
+          console.error(e)
+        }
+    }))    
+
+    await new Promise((resolve) => setTimeout(resolve, 5000));
 
     const agreement = await program.account.agreement.fetchNullable(
       agreementKeypair.publicKey,
       "confirmed"
     );
-
-    assert.equal(agreement.title, "test title");
-    assert.equal(agreement.content, "test content");
+        
+    assert.equal(agreement.version, 1);
     assert.equal(agreement.guarantorCount, 2);
+    assert.equal(agreement.title, title);
+    assert.equal(agreement.content, content);
     assert.equal(
       agreement.guarantors[0].wallet.toString(),
       signer1Keypair.publicKey.toString()

@@ -1,0 +1,51 @@
+{
+  "name": "@agreement/frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -H 0.0.0.0 -p 3001",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@agreement/js": "workspace:^",
+    "@emotion/babel-plugin": "^11.10.2",
+    "@emotion/babel-preset-css-prop": "^11.10.0",
+    "@emotion/css": "^11.10.0",
+    "@emotion/react": "^11.10.4",
+    "@emotion/server": "^11.10.0",
+    "@emotion/styled": "^11.10.4",
+    "@popperjs/core": "^2.11.6",
+    "@project-serum/anchor": "^0.25.0",
+    "@saberhq/solana-contrib": "^1.14.9",
+    "@solana/wallet-adapter-base": "^0.9.17",
+    "@solana/wallet-adapter-react": "^0.15.19",
+    "@solana/wallet-adapter-react-ui": "^0.9.17",
+    "@solana/wallet-adapter-wallets": "^0.19.1",
+    "@solana/web3.js": "^1.63.1",
+    "next": "12.3.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-hot-toast": "2.2.0",
+    "react-icons": "^4.4.0",
+    "react-popper": "^2.3.0",
+    "react-query": "^3.39.2",
+    "remove": "^0.1.5"
+  },
+  "devDependencies": {
+    "@types/node": "18.7.23",
+    "@types/react": "18.0.21",
+    "@types/react-dom": "18.0.6",
+    "autoprefixer": "^10.4.5",
+    "eslint": "8.24.0",
+    "eslint-config-next": "12.3.1",
+    "postcss": "^8.4.16",
+    "prettier": "^2.7.1",
+    "tailwindcss": "^3.1.8",
+    "typescript": "4.8.4"
+  },
+  "resolutions": {
+    "autoprefixer": "10.4.5"
+  }
+}
