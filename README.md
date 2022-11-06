@@ -4,7 +4,7 @@ Solanasign is a decentralized platform for <b>signing and storing contracts betw
 The project started from the necessity of InvestConservation to sign a contract on the blockchain that could prove their commitment to tokenizing offchain carbon.
 
 WHO'S THIS PRODUCT FOR?<br>
-Anyone who needs to sign a contract for professional or personal purposes can now just simply use solana sign to store and sign a document on the Solana blockchain. The platform is open and accessible to anyone in posses of a Solana Wallet of any kind.<br>
+Anyone who needs to sign a contract for professional or personal purposes can now just use SolanaSign to store and sign a document on the Solana Blockchain. The platform is open and accessible to anyone in posses of a Solana Wallet of any kind.<br>
 List of supported wallets:
 
 <ul><li>Phantom</li>
@@ -29,6 +29,8 @@ By visiting <a>https://solanasign.investconservation.com</a> you're going to be 
 </ol>
 
 Either publishing a new contract or signing an existing one is going to require you to pay some gas fees. These are going to be used to store the datas on the Blockchain, this way you're going to have a lifetime proof of your sign, sitting here on the blockchain.<br>
+
+You can also share the document with the verified signs just by copying the URL and pasting anywhere else. Only disclaimer, to view a contract signed by anyone you still need to connect a wallet so that the platform will recognize the network.<br>
 
 WHY CHOOSING SOLANASIGN?<br>
 By leveraging the power of the Solana Blockchain, SolanSign is able to give to the users a simple and straightforward experience for reaching an agreement. While this is pretty similar to its competitors, the big difference it's the fully decentralized and trustless solution of storing the contract and the signs on the blockchain, basically making these ethernal. Also the fact that the sign is confirmed by the blockchain adds another level of security to the users.<br>
