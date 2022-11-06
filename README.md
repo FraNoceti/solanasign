@@ -21,7 +21,7 @@ List of supported wallets:
 </ul>
 
 HOW DOES IT WORKS?<br>
-By visiting <a>solanasign.investconservation.com</a> you're going to be able to connect your wallet to the platform, later you can:
+By visiting <a>https://solanasign.investconservation.com</a> you're going to be able to connect your wallet to the platform, later you can:
 <ol>
 <li>Create a new contract and invite the other person (or wallet) to sign it.</li>
 <li>Visiting your contracts list and see if you have a new contract, issued by someone else, to sign.</li>
